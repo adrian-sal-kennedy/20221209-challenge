@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 135.46666 135.46667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="512px"
+     inkscape:zoom="1.5917969"
+     inkscape:cx="255.68589"
+     inkscape:cy="256"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect859"
+       is_visible="true"
+       lpeversion="1"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffa500;stroke:none;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+       id="rect11047"
+       width="135.467"
+       height="135.46666"
+       x="0"
+       y="0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:1.05833;stroke-linecap:round;stroke-linejoin:round;paint-order:markers stroke fill"
+       d="M 90.714003,12.641693 C 83.096997,14.18138 73.809165,19.687523 60.872668,19.518417 47.93617,19.349311 31.35151,13.505429 20.93278,17.043281 10.514049,20.581133 6.2617036,33.499943 7.3746963,51.685419 8.487689,69.870896 14.965693,93.321977 20.320092,105.69743 c 5.354399,12.37545 9.585113,13.67498 12.372771,11.65179 2.787659,-2.02318 4.132041,-7.36927 2.583627,-17.351639 -1.548415,-9.982366 -5.989602,-24.600169 -3.851459,-35.180554 2.138142,-10.580385 10.855706,-17.122848 19.268451,-19.62612 8.412744,-2.503271 16.520082,-0.96702 21.270765,3.203617 4.750683,4.170637 6.144244,10.97512 1.816623,15.618535 -4.327621,4.643415 -14.375697,7.125654 -18.280532,10.028982 -3.904836,2.903329 -1.666669,6.227585 7.352781,11.980993 9.01945,5.753409 24.819647,13.935689 30.94277,7.629354 6.123123,-6.306335 2.568859,-27.100888 3.69377,-42.465129 1.124912,-15.36424 6.929061,-25.297454 6.858151,-31.477873 -0.0709,-6.18042 -6.016802,-8.60738 -13.633807,-7.067693 z"
+       id="path857"
+       inkscape:path-effect="#path-effect859"
+       inkscape:original-d="M 92.385137,8.6750539 C 83.097045,14.18146 73.809212,19.687602 64.521647,25.19348 47.936058,19.349629 31.351398,13.505748 14.766671,7.6614849 10.513886,20.581079 6.2615464,33.499891 2.0093764,46.418696 c 6.478,23.452286 12.9560046,46.903367 19.4344006,70.354654 4.230616,1.29985 8.46133,2.59938 12.69239,3.89867 1.344171,-5.34603 2.68855,-10.69212 4.033224,-16.03858 C 33.727759,90.015311 29.286572,75.397508 24.845559,60.779144 33.563207,54.236687 42.28077,47.694223 50.998769,41.151363 c 8.1074,1.536576 16.214738,3.072826 24.322503,4.608844 1.393351,6.805017 2.786914,13.609499 4.180766,20.413852 -10.048743,2.482602 -20.096819,4.96484 -30.144831,7.446865 2.237991,3.324651 4.476157,6.648907 6.714633,9.972963 15.800564,8.182875 31.60076,16.365156 47.40154,24.547333 C 99.918707,87.346105 96.364447,66.551551 92.810377,45.756317 98.614487,35.82297 104.41863,25.889755 110.22316,15.956077 104.27677,13.529285 98.330877,11.102326 92.385137,8.6750539 Z"
+       inkscape:export-filename="/home/sal/RiderProjects/Ch1FlyoutPageModel/Ch1FlyoutPageModel/Ch1FlyoutPageModel.Android/Resources/drawable/my_logo.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="41.420181"
+       y="119.48926"
+       id="text3283"><tspan
+         sodipodi:role="line"
+         id="tspan3281"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:0.264583"
+         x="41.420181"
+         y="119.48926">Placeholder Logo</tspan></text>
+  </g>
+</svg>
