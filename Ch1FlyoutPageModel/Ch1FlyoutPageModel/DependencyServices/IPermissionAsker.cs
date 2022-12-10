@@ -1,13 +1,15 @@
-﻿using Ch1FlyoutPageModel.Models;
+﻿using Ch1FlyoutPageModel.Interfaces;
+using Ch1FlyoutPageModel.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Ch1FlyoutPageModel.DependencyServices
 {
     public interface IPermissionAsker
     {
-        IEnumerable<ChPermission> AskAllPermissions();
-        IEnumerable<ChPermission> CheckAllPermissions();
+        bool AskPermission(IChPermission perm);
+        IEnumerable<IChPermission> CheckAllPermissions();
     }
 }

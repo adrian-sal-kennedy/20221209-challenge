@@ -26,7 +26,7 @@
                             <Frame BackgroundColor="White"
                                    Padding="2"
                                    CornerRadius="10">
-                                <FlexLayout Wrap="Wrap">
+                                <FlexLayout Wrap="Wrap" JustifyContent="End" AlignContent="Start">
                                     <Label Text="Name:" Margin="4,2"/>
                                     <Label FontAttributes="Bold" Text="{Binding PermissionName}" Margin="4,2"/>
                                     <Label Text="Description:" Margin="4,2"/>

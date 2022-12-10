@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,17 +20,9 @@ namespace Ch1FlyoutPageModel.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (BindingContext is PermissionsViewModel vm)
+            if (BindingContext is PermissionsViewModel vm && vm.MissingPermissions.Count > 0)
             {
-                vm.MissingPermissions = new()
-                {
-                    new ChPermission()
-                    {
-                        PermissionName = "bklah",
-                        PermissionDescription = "a bit of text",
-                        PermissionRationale = "to have something to look at",
-                    }
-                };
+                vm.AskPermissions();
             }
         }
     }
