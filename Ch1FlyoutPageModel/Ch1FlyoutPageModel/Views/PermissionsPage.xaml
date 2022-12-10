@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             x:Class="Ch1FlyoutPageModel.Views.PermissionsPage">
+    <Shell.TitleView>
+        <Label Text="Permissions"
+               TextColor="White"
+               FontSize="Title"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:PermissionsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Frame Margin="16,6" Padding="0" CornerRadius="20">
+            <StackLayout BackgroundColor="#800080ff"
+                         Padding="10"
+                         Spacing="0">
+                <CollectionView HorizontalOptions="FillAndExpand"
+                                ItemsSource="{Binding MissingPermissions}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White"
+                                   Padding="2"
+                                   CornerRadius="10">
+                                <FlexLayout Wrap="Wrap">
+                                    <Label Text="Name:" Margin="4,2"/>
+                                    <Label FontAttributes="Bold" Text="{Binding PermissionName}" Margin="4,2"/>
+                                    <Label Text="Description:" Margin="4,2"/>
+                                    <Label FontAttributes="Bold" Text="{Binding PermissionDescription}" Margin="4,2" />
+                                    <Label Text="Rationale:"
+                                               Margin="4,2"/>
+                                    <Label FontAttributes="Bold"
+                                               MaxLines="2"
+                                               Text="{Binding PermissionRationale}" Margin="4,2" />
+                                </FlexLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>
