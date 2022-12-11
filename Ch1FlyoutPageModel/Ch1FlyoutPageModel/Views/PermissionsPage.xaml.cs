@@ -13,17 +13,24 @@ namespace Ch1FlyoutPageModel.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PermissionsPage : ContentPage
     {
+        private static Task<bool> askPermissionsTask;
         public PermissionsPage()
         {
             InitializeComponent();
         }
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (BindingContext is PermissionsViewModel vm && vm.MissingPermissions.Count > 0)
-            {
-                vm.AskPermissions();
-            }
+            // if (BindingContext is PermissionsViewModel vm
+            //      && vm.MissingPermissions.Count > 0
+            //      && (askPermissionsTask == null
+            //         || (int)askPermissionsTask.Status > 3)
+            //    )
+            // {
+            //     askPermissionsTask = vm.AskPermissions();
+            //     await askPermissionsTask;
+            //     askPermissionsTask = null;
+            // }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Ch1FlyoutPageModel.ViewModels
         public PermissionsViewModel()
         {
             AskPermissionsCommand = new Command(AskPermissions);
+            // Task.Run(AskPermissions);
         }
         public static void SetPermissions(IEnumerable<IChPermission> perms)
         {
@@ -35,18 +36,18 @@ namespace Ch1FlyoutPageModel.ViewModels
             // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
             // Given we're waiting for user interaction it's not performance constrained.
             var permissions = MissingPermissions;
-            _ = await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 foreach (var perm in permissions)
                 {
-                    if (DependencyService.Get<IPermissionAsker>().AskPermission(perm))
+                    if (await DependencyService.Get<IPermissionAsker>().AskPermission(perm))
                     {
                         MissingPermissions.Remove(perm);
                     }
                 }
-                return true;
             });
             OnPropertyChanged(nameof(MissingPermissions));
+            return;
         }
     }
 }

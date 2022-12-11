@@ -63,27 +63,31 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
 
     public class PermissionAsker : IPermissionAsker
     {
-        private static AutoResetEvent permissionReceivedThankYou = new AutoResetEvent(false);
+        private static TaskCompletionSource<bool> permissionReceivedThankYou = new TaskCompletionSource<bool>();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
         public class PermissionReceiver : BroadcastReceiver
         {
             public override void OnReceive(Context context, Intent intent)
             {
-                permissionReceivedThankYou.Set();
+                permissionReceivedThankYou.TrySetResult(intent.DataString != null);
+                permissionReceivedThankYou = new TaskCompletionSource<bool>();
             }
         }
 
-        public bool AskPermission(IChPermission permission)
+        public async Task<bool> AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
             var activity = Platform.CurrentActivity;
-            ActivityCompat.RequestPermissions(
-                activity,
-                new string[] { perm.ToString() },
-                (int)RequestCodes.Permission
-            );
-            var res = permissionReceivedThankYou.WaitOne();
+            Device.InvokeOnMainThreadAsync(() =>
+            {
+                ActivityCompat.RequestPermissions(
+                    activity,
+                    new string[] { perm.ToString() },
+                    (int)RequestCodes.Permission
+                );
+            });
+            var res = await permissionReceivedThankYou.Task;
             return res;
         }
 

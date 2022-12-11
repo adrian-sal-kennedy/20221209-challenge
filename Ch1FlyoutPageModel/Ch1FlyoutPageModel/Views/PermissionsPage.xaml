@@ -1,8 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
-             x:Class="Ch1FlyoutPageModel.Views.PermissionsPage">
+             x:Class="Ch1FlyoutPageModel.Views.PermissionsPage"
+             BackgroundColor="#ff80b0ff">
     <Shell.TitleView>
         <Label Text="Permissions"
                TextColor="White"
@@ -15,33 +17,34 @@
         <vm:PermissionsViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Frame Margin="16,6" Padding="0" CornerRadius="20">
-            <StackLayout BackgroundColor="#800080ff"
-                         Padding="10"
-                         Spacing="0">
-                <CollectionView HorizontalOptions="FillAndExpand"
-                                ItemsSource="{Binding MissingPermissions}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
+        <StackLayout Padding="20,10"
+                     Spacing="0">
+            <CollectionView HorizontalOptions="FillAndExpand"
+                            ItemsSource="{Binding MissingPermissions}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
                             <Frame BackgroundColor="White"
                                    Padding="2"
+                                   Margin="0,0,0,10"
                                    CornerRadius="10">
-                                <FlexLayout Wrap="Wrap" JustifyContent="End" AlignContent="Start">
-                                    <Label Text="Name:" Margin="4,2"/>
-                                    <Label FontAttributes="Bold" Text="{Binding PermissionName}" Margin="4,2"/>
-                                    <Label Text="Description:" Margin="4,2"/>
-                                    <Label FontAttributes="Bold" Text="{Binding PermissionDescription}" Margin="4,2" />
+                                <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignContent="Start">
+                                    <Label Text="Name:" Margin="4,2" />
+                                    <Label FontAttributes="Bold" Text="{Binding PermissionName}" Margin="4,2" />
+                                    <Label Text="Description:" Margin="4,2" />
+                                    <Label FontAttributes="Bold" Text="{Binding PermissionDescription}"
+                                           Margin="4,2" />
                                     <Label Text="Rationale:"
-                                               Margin="4,2"/>
+                                           Margin="4,2" />
                                     <Label FontAttributes="Bold"
-                                               MaxLines="2"
-                                               Text="{Binding PermissionRationale}" Margin="4,2" />
+                                           MaxLines="2"
+                                           Text="{Binding PermissionRationale}" Margin="4,2" />
                                 </FlexLayout>
                             </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </Frame>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

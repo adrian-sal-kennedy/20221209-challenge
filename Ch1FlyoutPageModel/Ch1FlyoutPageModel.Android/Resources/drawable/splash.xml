@@ -3,10 +3,8 @@
   <item>
     <color android:color="@color/launcher_background"/>
   </item>
-	<item android:left="16dp"
-		  android:right="16dp">
-    <bitmap
-        android:src="@drawable/my_logo"
-        android:gravity="center"/>
-  </item>
+  <item android:drawable="@drawable/my_logo"
+        android:gravity="center"
+        android:width="1080px"
+        android:height="1920px"/>
 </layer-list>
