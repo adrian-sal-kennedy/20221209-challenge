@@ -40,7 +40,7 @@ namespace Ch1FlyoutPageModel.ViewModels
             {
                 foreach (var perm in permissions)
                 {
-                    if (await DependencyService.Get<IPermissionAsker>().AskPermission(perm))
+                    if (DependencyService.Get<IPermissionAsker>().AskPermission(perm))
                     {
                         MissingPermissions.Remove(perm);
                     }

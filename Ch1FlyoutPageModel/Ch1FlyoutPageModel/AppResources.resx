@@ -150,4 +150,7 @@
   <data name="CameraRationale" xml:space="preserve">
     <value>We need pics to show our gainz</value>
   </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

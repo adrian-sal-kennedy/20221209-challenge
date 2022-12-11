@@ -13,6 +13,7 @@ using Ch1FlyoutPageModel.Droid.DependencyServices;
 using Ch1FlyoutPageModel.Helpers;
 using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.Models;
+using Google.Android.Material.Snackbar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,12 +66,15 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
     public class PermissionAsker : IPermissionAsker
     {
         private Context context => Application.Context;
-        private Activity activity => Platform.CurrentActivity;
+        private MainActivity activity => Platform.CurrentActivity as MainActivity;
         private static TaskCompletionSource<bool> permissionReceivedThankYou = new TaskCompletionSource<bool>();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
         public class PermissionReceiver : BroadcastReceiver
         {
+            public PermissionReceiver() : base()
+            {
+            }
             public override void OnReceive(Context context, Intent intent)
             {
                 permissionReceivedThankYou.TrySetResult(intent.DataString != null);
@@ -78,19 +82,30 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
         }
 
-        public async Task<bool> AskPermission(IChPermission permission)
+        public bool AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
-
-            ActivityCompat.RequestPermissions(
-                activity,
-                new string[] { perm.ToString() },
-                (int)RequestCodes.Permission
-            );
+            var permArr = new string[] { perm.ToString() };
+            var prec = new PermissionReceiver();
+            activity.RegisterPermissionReceiver(prec);
+            Snackbar.Make(context, (int)Snackbar.LengthLong)
+                    .SetAction(ar.OK, () => ActivityCompat.RequestPermissions(
+                        activity,
+                        permArr,
+                        
+                        (int)RequestCodes.Permission
+                    ))
+                    .Show();
+            // Device.BeginInvokeOnMainThread(() => ActivityCompat.RequestPermissions(
+            //     activity,
+            //     permArr,
+            //     (int)RequestCodes.Permission
+            // ));
             // Device.BeginInvokeOnMainThread(() =>
             // {
             // });
-            await permissionReceivedThankYou.Task;
+            bool prqRes = permissionReceivedThankYou.Task.Result;
+            activity.UnregisterPermissionReceiver(prec);
             return ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0;
         }
 
