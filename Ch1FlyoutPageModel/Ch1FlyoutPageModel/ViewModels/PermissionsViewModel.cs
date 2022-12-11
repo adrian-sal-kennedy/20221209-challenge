@@ -25,7 +25,7 @@ namespace Ch1FlyoutPageModel.ViewModels
         public PermissionsViewModel()
         {
             AskPermissionsCommand = new Command(AskPermissions);
-            // Task.Run(AskPermissions);
+            Task.Run(AskPermissions);
         }
         public static void SetPermissions(IEnumerable<IChPermission> perms)
         {

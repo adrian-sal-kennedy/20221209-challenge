@@ -1,4 +1,5 @@
 ﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -63,6 +64,8 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
 
     public class PermissionAsker : IPermissionAsker
     {
+        private Context context => Application.Context;
+        private Activity activity => Platform.CurrentActivity;
         private static TaskCompletionSource<bool> permissionReceivedThankYou = new TaskCompletionSource<bool>();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
@@ -78,22 +81,21 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         public async Task<bool> AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
-            var activity = Platform.CurrentActivity;
-            Device.InvokeOnMainThreadAsync(() =>
-            {
-                ActivityCompat.RequestPermissions(
-                    activity,
-                    new string[] { perm.ToString() },
-                    (int)RequestCodes.Permission
-                );
-            });
-            var res = await permissionReceivedThankYou.Task;
-            return res;
+
+            ActivityCompat.RequestPermissions(
+                activity,
+                new string[] { perm.ToString() },
+                (int)RequestCodes.Permission
+            );
+            // Device.BeginInvokeOnMainThread(() =>
+            // {
+            // });
+            await permissionReceivedThankYou.Task;
+            return ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0;
         }
 
         public IEnumerable<IChPermission> CheckAllPermissions()
         {
-            var context = Application.Context;
             var count = new List<ChPermission>() { };
             // note that we add to the list when we *don't* have permission.
             if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.AccessWifiState) < 0)
