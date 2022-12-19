@@ -17,26 +17,32 @@
         <vm:PermissionsViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="20,10"
+        <StackLayout Padding="0"
                      Spacing="0">
             <CollectionView HorizontalOptions="FillAndExpand"
+                            SelectedItem="{Binding ChPermission, Mode=TwoWay}"
+                            SelectionMode="Single"
                             ItemsSource="{Binding MissingPermissions}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ContentView>
+                        <ContentView BackgroundColor="Transparent"
+                                     Padding="15,5">
                             <Frame BackgroundColor="White"
-                                   Padding="2"
-                                   Margin="0,0,0,10"
                                    CornerRadius="10">
-                                <FlexLayout Wrap="Wrap" JustifyContent="Start" AlignContent="Start">
+                                <FlexLayout Wrap="Wrap"
+                                            AlignItems="Start">
                                     <Label Text="Name:" Margin="4,2" />
-                                    <Label FontAttributes="Bold" Text="{Binding PermissionName}" Margin="4,2" />
-                                    <Label Text="Description:" Margin="4,2" />
-                                    <Label FontAttributes="Bold" Text="{Binding PermissionDescription}"
+                                    <Label StyleClass="Bold" 
+                                           Text="{Binding PermissionName}" 
+                                           Margin="4,2"/>
+                                    <Label Text="Description:"
+                                           Margin="4,2"/>
+                                    <Label StyleClass="Bold" 
+                                           Text="{Binding PermissionDescription}"
                                            Margin="4,2" />
                                     <Label Text="Rationale:"
                                            Margin="4,2" />
-                                    <Label FontAttributes="Bold"
+                                    <Label StyleClass="Bold" 
                                            MaxLines="2"
                                            Text="{Binding PermissionRationale}" Margin="4,2" />
                                 </FlexLayout>

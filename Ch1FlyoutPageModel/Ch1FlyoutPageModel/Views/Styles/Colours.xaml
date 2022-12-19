@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="L0">#FFFFFF</Color>
+    <Color x:Key="L1">#F2F3F7</Color>
+    <Color x:Key="L2">#DFE2EC</Color>
+    <Color x:Key="L3">#C0C5D8</Color>
+    <Color x:Key="L4">#A0A6BC</Color>
+    <Color x:Key="L5">#707894</Color>
+    <Color x:Key="Primary">#494f69</Color>
+    <Color x:Key="L6">#3E455B</Color>
+    <Color x:Key="L7">#282e43</Color>
+    <Color x:Key="L8">#181E33</Color>
+    <Color x:Key="L9">#0E1324</Color>
+    <Color x:Key="L10">#080C18</Color>
+    <Color x:Key="Accent">#910b0b</Color>
+    <Color x:Key="AccentLight">#ff3020</Color>
+    <Color x:Key="Success">#0b910b</Color>
+    <Color x:Key="SuccessLight">#20ff30</Color>
+    <Color x:Key="Warning">#91890b</Color>
+    <Color x:Key="WarningLight">#fff030</Color>
+    <Color x:Key="A0">#910b0b</Color>
+    <Color x:Key="A1">#4000ff00</Color>
+    <Color x:Key="A2">#40ffa800</Color>
+    <Color x:Key="T0">#00000000</Color>
+    <Color x:Key="T1">#40000000</Color>
+    <Color x:Key="T2">#40FFFFFF</Color>
+    <LinearGradientBrush x:Key="bgGrad"
+                         StartPoint="0,0"
+                         EndPoint="{AppThemeBinding Light='1,2', Dark='1,2'}">
+        <GradientStop Color="{AppThemeBinding Light={StaticResource L2}, Dark={StaticResource L9}}"
+                      Offset="0" />
+        <GradientStop Color="{AppThemeBinding Light={StaticResource L1}, Dark={StaticResource L8}}"
+                      Offset="1" />
+    </LinearGradientBrush>
+</ResourceDictionary>

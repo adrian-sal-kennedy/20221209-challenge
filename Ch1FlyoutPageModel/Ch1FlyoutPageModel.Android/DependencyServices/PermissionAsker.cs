@@ -37,15 +37,17 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
         public string PermissionDescription { get; set; }
         public string PermissionRationale { get; set; }
+
         public ChPermissionDroid(IChPermission perm)
         {
             PermissionType = perm.PermissionType;
             PermissionDescription = perm.PermissionDescription;
             PermissionRationale = perm.PermissionRationale;
         }
+
         public override string ToString()
         {
-            // this could go on forever, but Xamarin.Forms is cross-platform and
+            // this switch case could go on forever, but Xamarin.Forms is cross-platform and
             // it's nice to have room for these values to change around
             switch (PermissionType)
             {
@@ -67,45 +69,40 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
     {
         private Context context => Application.Context;
         private MainActivity activity => Platform.CurrentActivity as MainActivity;
-        private static TaskCompletionSource<bool> permissionReceivedThankYou = new TaskCompletionSource<bool>();
+        private static TaskCompletionSource<Task> permissionReceivedThankYou = new TaskCompletionSource<Task>();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
         public class PermissionReceiver : BroadcastReceiver
         {
-            public PermissionReceiver() : base()
-            {
-            }
+            // public PermissionReceiver() : base()
+            // {
+            // }
+
             public override void OnReceive(Context context, Intent intent)
             {
-                permissionReceivedThankYou.TrySetResult(intent.DataString != null);
-                permissionReceivedThankYou = new TaskCompletionSource<bool>();
+                permissionReceivedThankYou.TrySetResult(Task.CompletedTask);
+                // permissionReceivedThankYou.TrySetResult(intent.DataString != null);
+                permissionReceivedThankYou = new TaskCompletionSource<Task>();
             }
         }
 
-        public bool AskPermission(IChPermission permission)
+        public async Task<bool> AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
             var permArr = new string[] { perm.ToString() };
             var prec = new PermissionReceiver();
-            activity.RegisterPermissionReceiver(prec);
-            Snackbar.Make(context, (int)Snackbar.LengthLong)
-                    .SetAction(ar.OK, () => ActivityCompat.RequestPermissions(
-                        activity,
-                        permArr,
-                        
-                        (int)RequestCodes.Permission
-                    ))
-                    .Show();
-            // Device.BeginInvokeOnMainThread(() => ActivityCompat.RequestPermissions(
-            //     activity,
-            //     permArr,
-            //     (int)RequestCodes.Permission
-            // ));
-            // Device.BeginInvokeOnMainThread(() =>
-            // {
-            // });
-            bool prqRes = permissionReceivedThankYou.Task.Result;
-            activity.UnregisterPermissionReceiver(prec);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                activity.RegisterReceiver(prec, new IntentFilter(activity.PackageName));
+                ActivityCompat.RequestPermissions(
+                    activity,
+                    permArr,
+                    (int)RequestCodes.Permission
+                );
+            });
+            await permissionReceivedThankYou.Task;
+            activity.UnregisterReceiver(prec);
+
             return ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0;
         }
 
@@ -121,6 +118,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     PermissionRationale = ar.LocationAlwaysAllowRationale,
                 });
             }
+
             if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.ActivityRecognition) < 0)
             {
                 count.Add(new ChPermission(Permission.ActivityRecognition)
@@ -129,6 +127,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     PermissionRationale = ar.ActivityRecognitionRationale,
                 });
             }
+
             if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.Camera) < 0)
             {
                 count.Add(new ChPermission(Permission.Camera)
@@ -137,6 +136,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     PermissionRationale = ar.CameraRationale,
                 });
             }
+
             return count;
         }
     }

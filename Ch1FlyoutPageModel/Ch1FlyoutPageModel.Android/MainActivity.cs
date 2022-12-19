@@ -40,16 +40,14 @@ namespace Ch1FlyoutPageModel.Droid
                 Xamarin.Forms.FormsMaterial.Init(this, _savedInstanceState);
             }
         }
-        protected override void OnPause()
-        {
-            // UnregisterReceiver(permissionReceiver);
-            base.OnPause();
-        }
+        // protected override void OnPause()
+        // {
+        //     base.OnPause();
+        // }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         public void RegisterPermissionReceiver(PermissionAsker.PermissionReceiver prec)

@@ -18,10 +18,10 @@ namespace Ch1FlyoutPageModel
         {
             InitializeComponent();
 
+            MainPage = new AppShell();
             // DependencyService.Register<MockDataStore>();
             List<IChPermission> permissions = DependencyService.Get<IPermissionAsker>().CheckAllPermissions().ToList() ?? new();
             PermissionsViewModel.SetPermissions(permissions);
-            MainPage = new AppShell();
         }
 
         protected override void OnStart()
