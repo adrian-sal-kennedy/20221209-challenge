@@ -67,9 +67,9 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
 
     public class PermissionAsker : IPermissionAsker
     {
-        private Context context => Application.Context;
-        private MainActivity activity => Platform.CurrentActivity as MainActivity;
-        private static TaskCompletionSource<Task> permissionReceivedThankYou = new TaskCompletionSource<Task>();
+        private Context Context => Application.Context;
+        private MainActivity Activity => Platform.CurrentActivity as MainActivity;
+        public static TaskCompletionSource<bool> PermissionReceivedThankYou = new TaskCompletionSource<bool>();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
         public class PermissionReceiver : BroadcastReceiver
@@ -80,37 +80,43 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
 
             public override void OnReceive(Context context, Intent intent)
             {
-                permissionReceivedThankYou.TrySetResult(Task.CompletedTask);
-                // permissionReceivedThankYou.TrySetResult(intent.DataString != null);
-                permissionReceivedThankYou = new TaskCompletionSource<Task>();
+                // permissionReceivedThankYou.TrySetResult(ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0);
+                PermissionReceivedThankYou.TrySetResult(intent.DataString != null);
+                PermissionReceivedThankYou = new TaskCompletionSource<bool>();
             }
         }
 
         public async Task<bool> AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
-            var permArr = new string[] { perm.ToString() };
-            var prec = new PermissionReceiver();
-            Device.BeginInvokeOnMainThread(() =>
+            var permArr = new[] { perm.ToString() };
+            // var prec = new PermissionReceiver();
+            // Activity.RegisterReceiver(prec, new IntentFilter(Activity.PackageName));
+            if (ContextCompat.CheckSelfPermission(Context, perm.ToString()) != 0)
             {
-                activity.RegisterReceiver(prec, new IntentFilter(activity.PackageName));
-                ActivityCompat.RequestPermissions(
-                    activity,
-                    permArr,
-                    (int)RequestCodes.Permission
-                );
-            });
-            await permissionReceivedThankYou.Task;
-            activity.UnregisterReceiver(prec);
-
-            return ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0;
+                await Device.InvokeOnMainThreadAsync(async () =>
+                {
+                    ActivityCompat.RequestPermissions(
+                        Activity,
+                        permArr,
+                        (int)RequestCodes.Permission
+                    );
+                });
+                bool res = await PermissionReceivedThankYou.Task;
+                if (res)
+                {
+                    // anything here?
+                }
+            }
+            return ContextCompat.CheckSelfPermission(Context, perm.ToString()) == 0;
         }
 
         public IEnumerable<IChPermission> CheckAllPermissions()
         {
             var count = new List<ChPermission>() { };
             // note that we add to the list when we *don't* have permission.
-            if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.AccessWifiState) < 0)
+            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessWifiState) < 0
+                || (int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessBackgroundLocation) < 0)
             {
                 count.Add(new ChPermission(Permission.LocationAlwaysAllow)
                 {
@@ -119,7 +125,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                 });
             }
 
-            if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.ActivityRecognition) < 0)
+            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ActivityRecognition) < 0)
             {
                 count.Add(new ChPermission(Permission.ActivityRecognition)
                 {
@@ -128,7 +134,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                 });
             }
 
-            if ((int)ContextCompat.CheckSelfPermission(context, Manifest.Permission.Camera) < 0)
+            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) < 0)
             {
                 count.Add(new ChPermission(Permission.Camera)
                 {

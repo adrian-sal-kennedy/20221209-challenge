@@ -46,17 +46,20 @@ namespace Ch1FlyoutPageModel.ViewModels
 
         public async void AskPermissions()
         {
-            // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
-            // Given we need to wait for user interaction it's not performance constrained.
-            var permissions = MissingPermissions;
-            foreach (var perm in permissions)
+            await Task.Run(async () =>
             {
-                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm); 
-                if (res)
+                // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
+                // Given we need to wait for user interaction it's not performance constrained.
+                var permissions = MissingPermissions;
+                foreach (var perm in permissions)
                 {
-                    MissingPermissions.Remove(perm);
+                    bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                    if (res)
+                    {
+                        MissingPermissions.Remove(perm);
+                    }
                 }
-            }
+            });
 
             OnPropertyChanged(nameof(MissingPermissions));
             PermissionsPage.IsWaiting = false;
