@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Ch1FlyoutPageModel.Views;
+using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -24,19 +25,18 @@ namespace Ch1FlyoutPageModel.ViewModels
             set => SetProperty(ref missingPermissions, value);
         }
 
-        private IChPermission chPermission;
+        private IChPermission selectedPermission;
 
-        public IChPermission ChPermission
+        public IChPermission SelectedPermission
         {
-            get => chPermission;
-            set => SetProperty(ref chPermission, value ?? new ChPermission(new()));
+            get => selectedPermission;
+            set => SetProperty(ref selectedPermission, value ?? new ChPermission(new()));
         }
 
-        public ICommand AskPermissionsCommand { get; }
+        public ICommand AskPermissionsCommand => new Command(AskPermissions);
 
         public PermissionsViewModel()
         {
-            AskPermissionsCommand = new Command(AskPermissions);
         }
 
         public static void SetPermissions(IEnumerable<IChPermission> perms)
@@ -50,18 +50,18 @@ namespace Ch1FlyoutPageModel.ViewModels
             {
                 // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
                 // Given we need to wait for user interaction it's not performance constrained.
-                var permissions = MissingPermissions;
-                foreach (var perm in permissions)
+                while (missingPermissions.Count > 0)
                 {
+                    var perm = missingPermissions.FirstOrDefault();
                     bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                    if (res)
-                    {
-                        MissingPermissions.Remove(perm);
-                    }
+                    // if (res)
+                    // {
+                    // }
+                    OnPropertyChanged(nameof(MissingPermissions));
+                    missingPermissions.Remove(perm);
                 }
             });
 
-            OnPropertyChanged(nameof(MissingPermissions));
             PermissionsPage.IsWaiting = false;
         }
     }

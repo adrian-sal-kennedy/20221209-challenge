@@ -7,6 +7,7 @@ using Android.OS;
 using Ch1FlyoutPageModel.Droid.DependencyServices;
 using Java.Util.Jar;
 using System.Linq;
+using AndroidX.Core.App;
 using System.Reflection;
 using System.Threading.Tasks;
 

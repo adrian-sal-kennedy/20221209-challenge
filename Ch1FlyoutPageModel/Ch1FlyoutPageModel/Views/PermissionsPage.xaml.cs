@@ -13,7 +13,7 @@ namespace Ch1FlyoutPageModel.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PermissionsPage : ContentPage
     {
-        public static bool IsWaiting = false;
+        public static bool IsWaiting;
         public PermissionsPage()
         {
             InitializeComponent();

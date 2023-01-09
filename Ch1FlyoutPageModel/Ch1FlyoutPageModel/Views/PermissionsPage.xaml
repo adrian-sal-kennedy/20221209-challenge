@@ -20,7 +20,7 @@
         <StackLayout Padding="0"
                      Spacing="0">
             <CollectionView HorizontalOptions="FillAndExpand"
-                            SelectedItem="{Binding ChPermission, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedPermission, Mode=TwoWay}"
                             SelectionMode="Single"
                             ItemsSource="{Binding MissingPermissions}">
                 <CollectionView.ItemTemplate>

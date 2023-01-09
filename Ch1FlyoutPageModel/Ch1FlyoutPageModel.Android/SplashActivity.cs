@@ -22,10 +22,10 @@ namespace Ch1FlyoutPageModel.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            Task startupWork = new Task(async () => {
-                Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
-                await Task.Delay(1000); // Simulate a bit of startup work.
-                Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
+            Task startupWork = new Task(() => {
+                // Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
+                // await Task.Delay(1000); // Simulate a bit of startup work.
+                // Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             });
             startupWork.Start();

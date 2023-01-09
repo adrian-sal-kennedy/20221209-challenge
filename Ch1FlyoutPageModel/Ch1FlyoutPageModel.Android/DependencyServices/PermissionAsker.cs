@@ -45,22 +45,31 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             PermissionRationale = perm.PermissionRationale;
         }
 
-        public override string ToString()
+        public string[] ToStringArray()
         {
             // this switch case could go on forever, but Xamarin.Forms is cross-platform and
             // it's nice to have room for these values to change around
             switch (PermissionType)
             {
                 case Permission.Camera:
-                    return Manifest.Permission.Camera;
+                    return new[] { Manifest.Permission.Camera };
                 case Permission.ActivityRecognition:
-                    return Manifest.Permission.ActivityRecognition;
+                    return new[] { Manifest.Permission.ActivityRecognition };
                 case Permission.LocationAlwaysAllow:
-                    return Manifest.Permission.AccessBackgroundLocation;
+                    return new[]
+                    {
+                        Manifest.Permission.AccessBackgroundLocation,
+                        Manifest.Permission.AccessFineLocation,
+                        Manifest.Permission.AccessCoarseLocation,
+                    };
                 case Permission.LocationOnlyForeground:
-                    return Manifest.Permission.AccessFineLocation;
+                    return new[]
+                    {
+                        Manifest.Permission.AccessFineLocation,
+                        Manifest.Permission.AccessCoarseLocation,
+                    };
                 default:
-                    return string.Empty;
+                    return new[] { string.Empty };
             }
         }
     }
@@ -89,10 +98,11 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         public async Task<bool> AskPermission(IChPermission permission)
         {
             var perm = new ChPermissionDroid(permission);
-            var permArr = new[] { perm.ToString() };
+            var permArr = perm.ToStringArray();
             // var prec = new PermissionReceiver();
             // Activity.RegisterReceiver(prec, new IntentFilter(Activity.PackageName));
-            if (ContextCompat.CheckSelfPermission(Context, perm.ToString()) != 0)
+            var permcheck = ContextCompat.CheckSelfPermission(Context, perm.ToStringArray().First());
+            if (permcheck != 0)
             {
                 await Device.InvokeOnMainThreadAsync(async () =>
                 {
@@ -108,7 +118,8 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     // anything here?
                 }
             }
-            return ContextCompat.CheckSelfPermission(Context, perm.ToString()) == 0;
+            permcheck = ContextCompat.CheckSelfPermission(Context, perm.ToStringArray().First());
+            return permcheck == 0;
         }
 
         public IEnumerable<IChPermission> CheckAllPermissions()
