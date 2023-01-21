@@ -4,8 +4,7 @@
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
              x:Name="settingsPage"
-             x:Class="Ch1FlyoutPageModel.Views.SettingsPage"
-             BackgroundColor="#ff80b0ff">
+             x:Class="Ch1FlyoutPageModel.Views.SettingsPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleSettingsPage}"
                TextColor="White"
@@ -18,10 +17,16 @@
         <vm:SettingsViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="0"
+        <StackLayout Padding="10"
                      Spacing="0">
             <FlexLayout>
-                <Label Text="Permission Status" />
+                <Label Text="Permission Status" StyleClass="h1,bold" />
+            </FlexLayout>
+            <FlexLayout>
+                <Label Text="Permission Status" StyleClass="h2,bold" />
+            </FlexLayout>
+            <FlexLayout>
+                <Label Text="Permission Status" StyleClass="body,bold" />
             </FlexLayout>
         </StackLayout>
     </ContentPage.Content>
