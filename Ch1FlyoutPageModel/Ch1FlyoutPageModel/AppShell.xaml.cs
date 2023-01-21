@@ -1,7 +1,4 @@
-﻿using Ch1FlyoutPageModel.ViewModels;
-using Ch1FlyoutPageModel.Views;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel

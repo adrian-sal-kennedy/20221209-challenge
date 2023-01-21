@@ -1,19 +1,16 @@
 ﻿using Ch1FlyoutPageModel.DependencyServices;
 using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.ViewModels;
-using Ch1FlyoutPageModel.Views;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Ch1FlyoutPageModel
 {
     public partial class App : Application
     {
+        public static ResourceDictionary Colours => Current.Resources.MergedDictionaries.FirstOrDefault() ?? new();
+        public static bool ThemeIsDark => Current.RequestedTheme == OSAppTheme.Dark;
         public App()
         {
             InitializeComponent();

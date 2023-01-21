@@ -3,6 +3,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Ch1FlyoutPageModel.Views"
+       xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
        Title="Ch1FlyoutPageModel"
        x:Class="Ch1FlyoutPageModel.AppShell">
 
@@ -83,11 +84,14 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="FlyoutPageModel App" Icon="icon_about.png">
-        <ShellContent Route="LandingPage" ContentTemplate="{DataTemplate local:LandingPage}" />
-    </FlyoutItem>
+    <!-- <FlyoutItem Title="FlyoutPageModel App" Icon="icon_about.png"> -->
+    <!--     <ShellContent Route="LandingPage" ContentTemplate="{DataTemplate local:LandingPage}" /> -->
+    <!-- </FlyoutItem> -->
     <FlyoutItem Title="App Permissions" Icon="icon_about.png">
         <ShellContent Route="Permissions" ContentTemplate="{DataTemplate local:PermissionsPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="{x:Static resources:AppResources.TitleSettingsPage}" Icon="icon_about.png">
+        <ShellContent Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

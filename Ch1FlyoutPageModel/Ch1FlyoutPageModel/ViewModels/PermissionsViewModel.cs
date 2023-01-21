@@ -33,10 +33,20 @@ namespace Ch1FlyoutPageModel.ViewModels
             set => SetProperty(ref selectedPermission, value ?? new ChPermission(new()));
         }
 
-        public ICommand AskPermissionsCommand => new Command(AskPermissions);
+        public ICommand AskPermissionsCommand { get; private set; }
+
+        public ICommand AskPermissionCommand { get; private set; }
 
         public PermissionsViewModel()
         {
+            AskPermissionsCommand = new Command(AskPermissions);
+            AskPermissionCommand = new Command((perm) =>
+            {
+                if (perm is IChPermission p)
+                {
+                    AskPermission(p);
+                }
+            });
         }
 
         public static void SetPermissions(IEnumerable<IChPermission> perms)
@@ -44,25 +54,38 @@ namespace Ch1FlyoutPageModel.ViewModels
             missingPermissions = new(perms);
         }
 
+        public async void AskPermission(IChPermission? perm)
+        {
+            await Task.Run(async () =>
+            {
+                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                if (res)
+                {
+                    missingPermissions.Remove(perm);
+                    OnPropertyChanged(nameof(MissingPermissions));
+                }
+            });
+        }
         public async void AskPermissions()
         {
             await Task.Run(async () =>
             {
                 // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
                 // Given we need to wait for user interaction it's not performance constrained.
-                while (missingPermissions.Count > 0)
+                int cnt = missingPermissions.Count;
+                for (int i = cnt; i > 0;)
                 {
-                    var perm = missingPermissions.FirstOrDefault();
+                    var perm = missingPermissions[i - 1];
                     bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                    // if (res)
-                    // {
-                    // }
-                    OnPropertyChanged(nameof(MissingPermissions));
-                    missingPermissions.Remove(perm);
+                    if (res)
+                    {
+                        missingPermissions.Remove(perm);
+                        OnPropertyChanged(nameof(MissingPermissions));
+                    }
+                    i--;
                 }
             });
-
-            PermissionsPage.IsWaiting = false;
+            await Shell.Current.GoToAsync("//Settings");
         }
     }
 }

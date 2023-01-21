@@ -3,10 +3,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Name="permissionsPage"
              x:Class="Ch1FlyoutPageModel.Views.PermissionsPage"
              BackgroundColor="#ff80b0ff">
     <Shell.TitleView>
-        <Label Text="Permissions"
+        <Label Text="{x:Static resources:AppResources.Permissions}"
                TextColor="White"
                FontSize="Title"
                FontAttributes="Bold"
@@ -25,29 +27,43 @@
                             ItemsSource="{Binding MissingPermissions}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ContentView BackgroundColor="Transparent"
-                                     Padding="15,5">
-                            <Frame BackgroundColor="White"
-                                   CornerRadius="10">
-                                <FlexLayout Wrap="Wrap"
-                                            AlignItems="Start">
-                                    <Label Text="Name:" Margin="4,2" />
-                                    <Label StyleClass="Bold" 
-                                           Text="{Binding PermissionName}" 
-                                           Margin="4,2"/>
-                                    <Label Text="Description:"
-                                           Margin="4,2"/>
-                                    <Label StyleClass="Bold" 
-                                           Text="{Binding PermissionDescription}"
-                                           Margin="4,2" />
-                                    <Label Text="Rationale:"
-                                           Margin="4,2" />
-                                    <Label StyleClass="Bold" 
-                                           MaxLines="2"
-                                           Text="{Binding PermissionRationale}" Margin="4,2" />
-                                </FlexLayout>
-                            </Frame>
-                        </ContentView>
+                        <Grid>
+                            <ContentView BackgroundColor="Transparent"
+                                         Padding="15,5">
+                                <!-- <ContentView.GestureRecognizers> -->
+                                <!--     <TapGestureRecognizer -->
+                                <!--         Command="{Binding BindingContext.AskPermissionCommand, Source={x:Reference permissionsPage}}" /> -->
+                                <!-- </ContentView.GestureRecognizers> -->
+                                <Frame BackgroundColor="White"
+                                       BorderColor="{Binding IsPermitted, Converter={StaticResource PermissionBoolToColourConverter}}"
+                                       CornerRadius="10">
+                                    <FlexLayout Wrap="Wrap"
+                                                AlignItems="Start">
+                                        <Label Text="{x:Static resources:AppResources.LabelPermissionName}"
+                                               Margin="4,2" />
+                                        <Label StyleClass="Bold"
+                                               Text="{Binding PermissionName}"
+                                               Margin="4,2" />
+                                        <Label Text="{x:Static resources:AppResources.LabelPermissionDescription}"
+                                               Margin="4,2" />
+                                        <Label StyleClass="Bold"
+                                               Text="{Binding PermissionDescription}"
+                                               Margin="4,2" />
+                                        <Label Text="{x:Static resources:AppResources.LabelPermissionRationale}"
+                                               Margin="4,2" />
+                                        <Label StyleClass="Bold"
+                                               MaxLines="2"
+                                               Text="{Binding PermissionRationale}" Margin="4,2" />
+                                    </FlexLayout>
+                                </Frame>
+                            </ContentView>
+                            <Label Text="{x:Static resources:AppResources.Denied}"
+                                   TextColor="Brown"
+                                   Opacity="0.5"
+                                   Margin="20,6"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="End" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

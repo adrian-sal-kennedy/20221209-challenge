@@ -26,6 +26,7 @@ namespace Ch1FlyoutPageModel.Models
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
         public string PermissionDescription { get; set; } = "";
         public string PermissionRationale { get; set; } = "";
+        public bool IsPermitted { get; }
         public ChPermission(Permission perm)
         {
             PermissionType = perm;

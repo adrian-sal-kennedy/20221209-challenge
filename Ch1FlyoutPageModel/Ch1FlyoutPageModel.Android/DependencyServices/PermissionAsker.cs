@@ -10,13 +10,11 @@ using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using Ch1FlyoutPageModel.DependencyServices;
 using Ch1FlyoutPageModel.Droid.DependencyServices;
-using Ch1FlyoutPageModel.Helpers;
 using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.Models;
 using Google.Android.Material.Snackbar;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
@@ -31,62 +29,15 @@ using Application = Android.App.Application;
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
-    public class ChPermissionDroid : IChPermission
-    {
-        public Permission PermissionType { get; set; }
-        public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
-        public string PermissionDescription { get; set; }
-        public string PermissionRationale { get; set; }
-
-        public ChPermissionDroid(IChPermission perm)
-        {
-            PermissionType = perm.PermissionType;
-            PermissionDescription = perm.PermissionDescription;
-            PermissionRationale = perm.PermissionRationale;
-        }
-
-        public string[] ToStringArray()
-        {
-            // this switch case could go on forever, but Xamarin.Forms is cross-platform and
-            // it's nice to have room for these values to change around
-            switch (PermissionType)
-            {
-                case Permission.Camera:
-                    return new[] { Manifest.Permission.Camera };
-                case Permission.ActivityRecognition:
-                    return new[] { Manifest.Permission.ActivityRecognition };
-                case Permission.LocationAlwaysAllow:
-                    return new[]
-                    {
-                        Manifest.Permission.AccessBackgroundLocation,
-                        Manifest.Permission.AccessFineLocation,
-                        Manifest.Permission.AccessCoarseLocation,
-                    };
-                case Permission.LocationOnlyForeground:
-                    return new[]
-                    {
-                        Manifest.Permission.AccessFineLocation,
-                        Manifest.Permission.AccessCoarseLocation,
-                    };
-                default:
-                    return new[] { string.Empty };
-            }
-        }
-    }
-
     public class PermissionAsker : IPermissionAsker
     {
-        private Context Context => Application.Context;
-        private MainActivity Activity => Platform.CurrentActivity as MainActivity;
-        public static TaskCompletionSource<bool> PermissionReceivedThankYou = new TaskCompletionSource<bool>();
+        public static Context Context => Application.Context;
+        private MainActivity Activity => (Platform.CurrentActivity as MainActivity)!;
+        public static TaskCompletionSource<bool> PermissionReceivedThankYou = new();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
         public class PermissionReceiver : BroadcastReceiver
         {
-            // public PermissionReceiver() : base()
-            // {
-            // }
-
             public override void OnReceive(Context context, Intent intent)
             {
                 // permissionReceivedThankYou.TrySetResult(ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0);
@@ -95,8 +46,9 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
         }
 
-        public async Task<bool> AskPermission(IChPermission permission)
+        public async Task<bool> AskPermission(IChPermission? permission)
         {
+            if (permission is not { }) { return false; }
             var perm = new ChPermissionDroid(permission);
             var permArr = perm.ToStringArray();
             // var prec = new PermissionReceiver();

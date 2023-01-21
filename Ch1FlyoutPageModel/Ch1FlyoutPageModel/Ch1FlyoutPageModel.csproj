@@ -4,9 +4,11 @@
 		<LangVersion>default</LangVersion>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
 		<PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2545" />
@@ -30,6 +32,10 @@
 	  </Compile>
 	  <Compile Update="Views\LandingPage.xaml.cs">
 	    <DependentUpon>LandingPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\SettingsPage.xaml.cs">
+	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>

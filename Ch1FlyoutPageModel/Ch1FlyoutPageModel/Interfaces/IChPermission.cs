@@ -1,6 +1,6 @@
-﻿using Ch1FlyoutPageModel.Helpers;
-using Ch1FlyoutPageModel.Models;
-using System.ComponentModel;
+﻿using Ch1FlyoutPageModel.Models;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.Interfaces
 {
@@ -10,5 +10,6 @@ namespace Ch1FlyoutPageModel.Interfaces
         string PermissionName { get; }
         string PermissionDescription { get; set; }
         string PermissionRationale { get; set; }
+        bool IsPermitted { get; }
     }
 }

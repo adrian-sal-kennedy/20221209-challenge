@@ -153,4 +153,25 @@
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="LabelPermissionName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="LabelPermissionDescription" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="LabelPermissionRationale" xml:space="preserve">
+    <value>Rationale:</value>
+  </data>
+  <data name="Denied" xml:space="preserve">
+    <value>Denied</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="TitleSettingsPage" xml:space="preserve">
+    <value>App Settings</value>
+  </data>
+  <data name="TitlePermissionsPage" xml:space="preserve">
+    <value>App Permissions</value>
+  </data>
 </root>

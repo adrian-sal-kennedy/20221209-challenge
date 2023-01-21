@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Name="settingsPage"
+             x:Class="Ch1FlyoutPageModel.Views.SettingsPage"
+             BackgroundColor="#ff80b0ff">
+    <Shell.TitleView>
+        <Label Text="{x:Static resources:AppResources.TitleSettingsPage}"
+               TextColor="White"
+               FontSize="Title"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:SettingsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="0"
+                     Spacing="0">
+            <FlexLayout>
+                <Label Text="Permission Status" />
+            </FlexLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
