@@ -1,16 +1,10 @@
 ﻿using Ch1FlyoutPageModel.DependencyServices;
 using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.Models;
-using System;
-using System.Collections;
-using System.Text;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Ch1FlyoutPageModel.Views;
-using System.Linq;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.ViewModels
@@ -25,21 +19,19 @@ namespace Ch1FlyoutPageModel.ViewModels
             set => SetProperty(ref missingPermissions, value);
         }
 
-        private IChPermission selectedPermission;
+        private IChPermission? selectedPermission;
 
-        public IChPermission SelectedPermission
+        public IChPermission? SelectedPermission
         {
             get => selectedPermission;
             set => SetProperty(ref selectedPermission, value ?? new ChPermission(new()));
         }
 
-        public ICommand AskPermissionsCommand { get; private set; }
-
         public ICommand AskPermissionCommand { get; private set; }
 
         public PermissionsViewModel()
         {
-            AskPermissionsCommand = new Command(AskPermissions);
+            new Command(AskPermissions);
             AskPermissionCommand = new Command((perm) =>
             {
                 if (perm is IChPermission p)

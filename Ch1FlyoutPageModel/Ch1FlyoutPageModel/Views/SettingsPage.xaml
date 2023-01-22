@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
@@ -17,17 +18,25 @@
         <vm:SettingsViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="10"
-                     Spacing="0">
-            <FlexLayout>
-                <Label Text="Permission Status" StyleClass="h1,bold" />
-            </FlexLayout>
-            <FlexLayout>
-                <Label Text="Permission Status" StyleClass="h2,bold" />
-            </FlexLayout>
-            <FlexLayout>
-                <Label Text="Permission Status" StyleClass="body,bold" />
-            </FlexLayout>
-        </StackLayout>
+        <ContentView Padding="20,10">
+            <Grid RowDefinitions="32,32,32,32">
+                <Label Grid.Row="0" Text="All permissions granted" StyleClass="h3,bold" />
+                <CheckBox Grid.Row="0" HorizontalOptions="End"
+                          IsEnabled="False"
+                          IsChecked="{Binding HasAllPermissions, Mode=OneWayToSource}" />
+                <Label Grid.Row="1" Text="Bluetooth is on" StyleClass="h3,bold" />
+                <CheckBox Grid.Row="1" HorizontalOptions="End"
+                          IsEnabled="False"
+                          IsChecked="{Binding IsBluetoothOn, Mode=OneWayToSource}" />
+                <Label Grid.Row="2" Text="Location is on" StyleClass="h3,bold" />
+                <CheckBox Grid.Row="2" HorizontalOptions="End"
+                          IsEnabled="False"
+                          IsChecked="{Binding IsGpsOn, Mode=OneWayToSource}" />
+                <Label Grid.Row="3" Text="Internet is on" StyleClass="h3,bold" />
+                <CheckBox Grid.Row="3" HorizontalOptions="End"
+                          IsEnabled="False"
+                          IsChecked="{Binding IsInternetAvailable}" />
+            </Grid>
+        </ContentView>
     </ContentPage.Content>
 </ContentPage>

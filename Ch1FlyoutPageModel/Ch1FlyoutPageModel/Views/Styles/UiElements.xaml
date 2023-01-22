@@ -15,6 +15,12 @@
         <Setter Property="FlexLayout.Shrink"
                 Value="0" />
     </Style>
+    <Style TargetType="CheckBox">
+        <Setter Property="Color"
+                Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
+        <Setter Property="Margin"
+                Value="{OnPlatform UWP='0,-2.5,-5,-2.5', Android='-5,-15,-15,-15', iOS='-5,-10,-10,-10'}" />
+    </Style>
     <Style TargetType="Label"
            BasedOn="{StaticResource label}">
     </Style>
