@@ -158,5 +158,17 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("TitlePermissionsPage", resourceCulture);
             }
         }
+        
+        public static string TitleListPage {
+            get {
+                return ResourceManager.GetString("TitleListPage", resourceCulture);
+            }
+        }
+        
+        public static string LabelListResults {
+            get {
+                return ResourceManager.GetString("LabelListResults", resourceCulture);
+            }
+        }
     }
 }

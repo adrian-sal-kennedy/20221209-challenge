@@ -39,4 +39,10 @@
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="Views\ListPage.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
 </Project>

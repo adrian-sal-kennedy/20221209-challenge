@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Name="listPage"
+             x:Class="Ch1FlyoutPageModel.Views.ListPage">
+    <Shell.TitleView>
+        <Label Text="{x:Static resources:AppResources.TitleListPage}"
+               TextColor="White"
+               FontSize="Title"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:ListViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid Padding="10" RowDefinitions="*">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding Albums}">
+                <CollectionView.Header>
+                    <Label Text="{x:Static resources:AppResources.LabelListResults}" StyleClass="h1,bold" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                        <Label Text="{Binding Title}"/>
+                        <Label Text="{Binding Url}"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

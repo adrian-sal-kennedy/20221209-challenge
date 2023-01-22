@@ -87,11 +87,14 @@
     <!-- <FlyoutItem Title="FlyoutPageModel App" Icon="icon_about.png"> -->
     <!--     <ShellContent Route="LandingPage" ContentTemplate="{DataTemplate local:LandingPage}" /> -->
     <!-- </FlyoutItem> -->
-    <FlyoutItem Title="App Permissions" Icon="icon_about.png">
+    <FlyoutItem Title="{x:Static resources:AppResources.TitlePermissionsPage}" Icon="icon_about.png">
         <ShellContent Route="Permissions" ContentTemplate="{DataTemplate local:PermissionsPage}" />
     </FlyoutItem>
     <FlyoutItem Title="{x:Static resources:AppResources.TitleSettingsPage}" Icon="icon_about.png">
         <ShellContent Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="{x:Static resources:AppResources.TitleListPage}" Icon="icon_about.png">
+        <ShellContent Route="List" ContentTemplate="{DataTemplate local:ListPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

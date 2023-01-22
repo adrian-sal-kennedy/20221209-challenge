@@ -174,4 +174,10 @@
   <data name="TitlePermissionsPage" xml:space="preserve">
     <value>App Permissions</value>
   </data>
+  <data name="TitleListPage" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="LabelListResults" xml:space="preserve">
+    <value>Items returned from the server:</value>
+  </data>
 </root>
