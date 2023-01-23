@@ -3,7 +3,6 @@ using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.Models;
 using System.Windows.Input;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -11,16 +10,7 @@ namespace Ch1FlyoutPageModel.ViewModels
 {
     public class PermissionsViewModel : BaseViewModel
     {
-        private static ObservableCollection<IChPermission> missingPermissions = new();
-
-        public ObservableCollection<IChPermission> MissingPermissions
-        {
-            get => missingPermissions;
-            set => SetProperty(ref missingPermissions, value);
-        }
-
         private IChPermission? selectedPermission;
-
         public IChPermission? SelectedPermission
         {
             get => selectedPermission;

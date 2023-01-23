@@ -1,13 +1,32 @@
-﻿using System;
+﻿using Ch1FlyoutPageModel.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-
+        public bool HasAllPermissions => MissingPermissions is { Count: 0 };
+        private static bool isBluetoothOn;
+        public bool IsBluetoothOn => isBluetoothOn;
+        public bool IsGpsOn { get; set; } = true;
+        public bool IsInternetAvailable { get; set; }
+        protected static ObservableCollection<IChPermission> missingPermissions = new();
+        public ObservableCollection<IChPermission> MissingPermissions
+        {
+            get => missingPermissions;
+            set
+            {
+                SetProperty(ref missingPermissions, value);
+                OnPropertyChanged(nameof(HasAllPermissions));
+            }
+        }
         bool isBusy = false;
         public bool IsBusy
         {
@@ -21,7 +40,10 @@ namespace Ch1FlyoutPageModel.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
-
+        public BaseViewModel()
+        {
+            MessagingCenter.Subscribe<BaseViewModel>(this, "BtPropertyChanged", (_) => OnPropertyChanged(nameof(IsBluetoothOn)));
+        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)
@@ -33,6 +55,12 @@ namespace Ch1FlyoutPageModel.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+        public static void SetIsBluetoothOn(bool arg)
+        {
+            isBluetoothOn = arg;
+            // hax to update all instances to fire propertychanged from a static method.
+            MessagingCenter.Send(new BaseViewModel(),"BtPropertyChanged");
         }
 
         #region INotifyPropertyChanged

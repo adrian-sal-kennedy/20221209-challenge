@@ -23,19 +23,19 @@
                 <Label Grid.Row="0" Text="All permissions granted" StyleClass="h3,bold" />
                 <CheckBox Grid.Row="0" HorizontalOptions="End"
                           IsEnabled="False"
-                          IsChecked="{Binding HasAllPermissions, Mode=OneWayToSource}" />
+                          IsChecked="{Binding HasAllPermissions, Mode=OneWay}" />
                 <Label Grid.Row="1" Text="Bluetooth is on" StyleClass="h3,bold" />
                 <CheckBox Grid.Row="1" HorizontalOptions="End"
                           IsEnabled="False"
-                          IsChecked="{Binding IsBluetoothOn, Mode=OneWayToSource}" />
+                          IsChecked="{Binding IsBluetoothOn, Mode=OneWay}" />
                 <Label Grid.Row="2" Text="Location is on" StyleClass="h3,bold" />
                 <CheckBox Grid.Row="2" HorizontalOptions="End"
                           IsEnabled="False"
-                          IsChecked="{Binding IsGpsOn, Mode=OneWayToSource}" />
+                          IsChecked="{Binding IsGpsOn, Mode=OneWay}" />
                 <Label Grid.Row="3" Text="Internet is on" StyleClass="h3,bold" />
                 <CheckBox Grid.Row="3" HorizontalOptions="End"
                           IsEnabled="False"
-                          IsChecked="{Binding IsInternetAvailable}" />
+                          IsChecked="{Binding IsInternetAvailable, Mode=OneWay}" />
             </Grid>
         </ContentView>
     </ContentPage.Content>
