@@ -36,18 +36,6 @@ namespace Ch1FlyoutPageModel.ViewModels
             missingPermissions = new(perms);
         }
 
-        public async void AskPermission(IChPermission? perm)
-        {
-            await Task.Run(async () =>
-            {
-                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                if (res)
-                {
-                    missingPermissions.Remove(perm);
-                    OnPropertyChanged(nameof(MissingPermissions));
-                }
-            });
-        }
         public async void AskPermissions()
         {
             await Task.Run(async () =>

@@ -170,5 +170,23 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("LabelListResults", resourceCulture);
             }
         }
+        
+        public static string BluetoothPermissionName {
+            get {
+                return ResourceManager.GetString("BluetoothPermissionName", resourceCulture);
+            }
+        }
+        
+        public static string BluetoothPermissionDescription {
+            get {
+                return ResourceManager.GetString("BluetoothPermissionDescription", resourceCulture);
+            }
+        }
+        
+        public static string BluetoothPermissionRationale {
+            get {
+                return ResourceManager.GetString("BluetoothPermissionRationale", resourceCulture);
+            }
+        }
     }
 }

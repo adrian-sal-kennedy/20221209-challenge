@@ -45,6 +45,12 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                         Manifest.Permission.AccessFineLocation,
                         Manifest.Permission.AccessCoarseLocation,
                     };
+                case Permission.Bluetooth:
+                    return new[]
+                    {
+                        Manifest.Permission.Bluetooth,
+                        Manifest.Permission.BluetoothAdmin,
+                    };
                 default:
                     return new[] { string.Empty };
             }

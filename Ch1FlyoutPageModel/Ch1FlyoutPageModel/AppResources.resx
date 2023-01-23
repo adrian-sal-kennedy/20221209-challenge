@@ -180,4 +180,13 @@
   <data name="LabelListResults" xml:space="preserve">
     <value>Items returned from the server:</value>
   </data>
+  <data name="BluetoothPermissionName" xml:space="preserve">
+      <value>Bluetooth</value>
+  </data>
+  <data name="BluetoothPermissionDescription" xml:space="preserve">
+      <value>Just need to check if it's on</value>
+  </data>
+  <data name="BluetoothPermissionRationale" xml:space="preserve">
+      <value>To meet the requirements :)</value>
+  </data>
 </root>

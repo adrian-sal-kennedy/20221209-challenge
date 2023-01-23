@@ -19,6 +19,8 @@ namespace Ch1FlyoutPageModel.Models
         ActivityRecognition,
         [EnumDescriptionResource("Camera", typeof(AppResources))]
         Camera,
+        [EnumDescriptionResource("Bluetooth", typeof(AppResources))]
+        Bluetooth,
     }
     public class ChPermission : IChPermission
     {

@@ -10,6 +10,9 @@ using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.ViewModels
 {
+    using System.Threading.Tasks;
+    using DependencyServices;
+
     public class BaseViewModel : INotifyPropertyChanged
     {
         public bool HasAllPermissions => MissingPermissions is { Count: 0 };
@@ -74,5 +77,18 @@ namespace Ch1FlyoutPageModel.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public async void AskPermission(IChPermission? perm)
+        {
+            await Task.Run(async () =>
+            {
+                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                if (res)
+                {
+                    missingPermissions.Remove(perm);
+                    OnPropertyChanged(nameof(MissingPermissions));
+                }
+            });
+        }
     }
 }

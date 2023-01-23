@@ -7,7 +7,6 @@ using Android.OS;
 using Ch1FlyoutPageModel.Droid.DependencyServices;
 using System.Linq;
 using System.Threading.Tasks;
-using Ch1FlyoutPageModel.Droid.Classes;
 
 namespace Ch1FlyoutPageModel.Droid
 {
