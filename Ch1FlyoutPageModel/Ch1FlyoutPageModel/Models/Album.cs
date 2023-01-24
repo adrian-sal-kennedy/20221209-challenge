@@ -1,6 +1,10 @@
 using Newtonsoft.Json;
+
 namespace Ch1FlyoutPageModel.Models
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Model to contain the API response we're working with. Looking at the data
     /// it appears to represent an Album, so I've named it thus. I've made it a
@@ -9,15 +13,18 @@ namespace Ch1FlyoutPageModel.Models
     /// </summary>
     public record Album : BaseModel
     {
-        [JsonProperty("albumId")]
-        public int AlbumId { get; set; }
-        [JsonProperty("id")]
-        public int Id { get; set; }
-        [JsonProperty("title")]
-        public string? Title { get; set; }
+        [JsonProperty("albumId")] public int AlbumId { get; set; }
+        [JsonProperty("id")] public int Id { get; set; }
+        [JsonProperty("title")] public string? Title { get; set; }
+
+        // public string? Url
+        // {
+        //     get => "http://loremflickr.com/600/600/nature?filename=simple.jpg";
+        //     set => Debug.WriteLine(value);
+        // }
         [JsonProperty("url")]
+
         public string? Url { get; set; }
-        [JsonProperty("thumbnailUrl")]
-        public string? ThumbnailUrl { get; set; }
+        [JsonProperty("thumbnailUrl")] public string? ThumbnailUrl { get; set; }
     }
 }

@@ -22,12 +22,9 @@ namespace Ch1FlyoutPageModel.Views
             {
                 Task.Run(() =>
                 {
-                    var perm = new ChPermission(Permission.Bluetooth)
+                    if (!vm.CheckBluetoothStatus())
                     {
-                        PermissionDescription = ar.BluetoothPermissionDescription,
-                        PermissionRationale = ar.BluetoothPermissionRationale,
-                    };
-                    vm.AskPermission(perm);
+                    }
                 });
                 // hasRunOnce = true;
             }

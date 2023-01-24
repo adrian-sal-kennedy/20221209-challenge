@@ -4,14 +4,26 @@ using Android.Content;
 using Ch1FlyoutPageModel.DependencyServices;
 using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.ViewModels;
+using System.Linq;
+using Ch1FlyoutPageModel.Droid.DependencyServices;
+using Xamarin.Forms;
+using AndroidX.Core.Content;
+using Ch1FlyoutPageModel.Models;
+using Application = Android.App.Application;
+
+[assembly: Dependency(typeof(Bluetooth))]
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
-    using System;
-    using System.Linq;
-
     public class Bluetooth : IBluetooth
     {
+        public static Context Context => Application.Context;
+
+        private BluetoothManager? bluetoothManager =
+            Context.GetSystemService(Context.BluetoothService) as BluetoothManager;
+
+        public BluetoothAdapter? BtAdapter => bluetoothManager?.Adapter;
+
         // [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged }, Categories = new[] { Intent.CategoryDefault })]
         [BroadcastReceiver(Enabled = true, Exported = true)]
         public class BluetoothReceiver : BroadcastReceiver
@@ -28,8 +40,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         private List<BluetoothDeviceDroid> GetBluetoothDevices()
         {
             List<BluetoothDeviceDroid> list = new();
-            BluetoothAdapter? adapter = BluetoothAdapter.DefaultAdapter;
-            if (adapter is { IsEnabled: true, BondedDevices: { } devices })
+            if (BtAdapter is { IsEnabled: true, BondedDevices: { } devices })
             {
                 list = devices.Select(d => new BluetoothDeviceDroid(d)).ToList();
             }
@@ -42,6 +53,16 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             get => GetBluetoothDevices();
         }
 
-        public bool CheckPermission() => throw new NotImplementedException();
+        public bool CheckPermission()
+        {
+            if (Context is { } context)
+            {
+                var permString = new ChPermissionDroid(Permission.Bluetooth).ToStringArray();
+                bool res = ContextCompat.CheckSelfPermission(context, permString.FirstOrDefault()) == 0;
+                return res;
+            }
+
+            return false;
+        }
     }
 }

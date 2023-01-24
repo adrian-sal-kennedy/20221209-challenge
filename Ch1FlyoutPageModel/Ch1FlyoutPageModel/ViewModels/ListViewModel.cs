@@ -33,19 +33,7 @@ namespace Ch1FlyoutPageModel.ViewModels
         public ListViewModel()
         {
         }
-        private static HttpClient CreateClient()
-        {
-            var client = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate, })
-            {
-                BaseAddress = new("https://jsonplaceholder.typicode.com"),
-                Timeout = new(0, 0, 1, 0),
-            };
-            client.DefaultRequestHeaders.Add("UserAgent", new[] { "Ch1FlyoutPageModel" });
-            client.DefaultRequestHeaders.Add("Expect", new[] { "1.0.0.0" });
-            client.DefaultRequestHeaders.Add("ClkOnceV", new[] { "DEBUG version" });
 
-            return client;
-        }
         public async Task<ObservableCollection<Album>?> GetListAsync()
         {
             var res = await client.GetAsync("albums/1/photos");

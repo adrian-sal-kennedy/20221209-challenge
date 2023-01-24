@@ -21,6 +21,13 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             PermissionDescription = perm.PermissionDescription;
             PermissionRationale = perm.PermissionRationale;
         }
+        public ChPermissionDroid(Permission permEnum)
+        {
+            var perm = new ChPermission(permEnum);
+            PermissionType = perm.PermissionType;
+            PermissionDescription = perm.PermissionDescription;
+            PermissionRationale = perm.PermissionRationale;
+        }
 
         public string[] ToStringArray()
         {

@@ -23,8 +23,10 @@ namespace Ch1FlyoutPageModel.Droid
         {
             base.OnCreate(savedInstanceStateArg);
             savedInstanceState = savedInstanceStateArg;
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true); 
             Xamarin.Essentials.Platform.Init(this, savedInstanceStateArg);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceStateArg);
+            // FFImageLoading.Forms.Platform.CachedImageRenderer.InitImageViewHandler();
             LoadApplication(new App());
             permissionReceiver = new PermissionAsker.PermissionReceiver();
             bluetoothReceiver = new Bluetooth.BluetoothReceiver();
