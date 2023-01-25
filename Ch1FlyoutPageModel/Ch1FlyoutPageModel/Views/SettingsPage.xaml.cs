@@ -3,31 +3,26 @@
 namespace Ch1FlyoutPageModel.Views
 {
     using System.Threading.Tasks;
+    using DependencyServices;
     using Models;
     using ViewModels;
+    using Xamarin.Forms;
     using ar = AppResources;
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage
     {
+        private SettingsViewModel? vm => BindingContext as SettingsViewModel;
+
         public SettingsPage()
         {
             InitializeComponent();
         }
 
-        protected override void OnBindingContextChanged()
+        protected override void OnAppearing()
         {
-            base.OnBindingContextChanged();
-            if (BindingContext is SettingsViewModel vm)
-            {
-                Task.Run(() =>
-                {
-                    if (!vm.CheckBluetoothStatus())
-                    {
-                    }
-                });
-                // hasRunOnce = true;
-            }
+            base.OnAppearing();
+            vm?.CheckBluetoothStatus();
         }
     }
 }

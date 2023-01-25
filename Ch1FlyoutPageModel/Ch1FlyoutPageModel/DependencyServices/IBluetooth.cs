@@ -5,7 +5,7 @@ namespace Ch1FlyoutPageModel.DependencyServices
 {
     public interface IBluetooth
     {
-        IEnumerable<IBluetoothDevice> Devices { get; }
+        bool IsOn { get; }
         bool CheckPermission();
     }
 }

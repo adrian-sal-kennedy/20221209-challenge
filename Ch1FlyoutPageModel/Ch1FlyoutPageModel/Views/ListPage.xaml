@@ -31,23 +31,9 @@
                             <Frame CornerRadius="8" Margin="0,2">
                                 <StackLayout>
                                     <Label Text="{Binding Title}" />
-                                    <!-- <WebView Source="{Binding Url}" /> -->
-                                    <ffi:CachedImage Source="{Binding Url}" ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"/>
-                                    <!-- <Image> -->
-                                    <!--     <Image.Source> -->
-                                    <!--         <StreamImageSource -->
-                                    <!--             Stream="{Binding Url, Converter={StaticResource UriStringToStreamConverter}}" /> -->
-                                    <!--         ~1~ <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> @1@ -->
-                                    <!--         ~1~ <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> @1@ -->
-                                    <!--     </Image.Source> -->
-                                    <!-- </Image> -->
-                                    <!-- <Label Text="{Binding Url}"/> -->
-                                    <!-- <Image x:Name="backgroundImage" Source="https:/.jpg"  -->
-                                    <!--        AbsoluteLayout.LayoutBounds="0,0,1,1"  -->
-                                    <!--        AbsoluteLayout.LayoutFlags="All" -->
-                                    <!--        HorizontalOptions="FillAndExpand"  -->
-                                    <!--        VerticalOptions="FillAndExpand" -->
-                                    <!--        Aspect="AspectFill"/> -->
+                                    <ffi:CachedImage Source="{Binding Url}" ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"
+                                                     CacheType="Disk"/>
+                                    <!-- quick fix: CacheType="All" or "Memory" will cause the pic to be GC'd upon backgrounding. -->
                                 </StackLayout>
                             </Frame>
                         </ContentView>

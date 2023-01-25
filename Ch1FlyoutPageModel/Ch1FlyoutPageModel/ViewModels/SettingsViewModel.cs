@@ -7,20 +7,28 @@ namespace Ch1FlyoutPageModel.ViewModels
 
     public class SettingsViewModel : BaseViewModel
     {
+        private static SettingsViewModel? _instance;
+
         public SettingsViewModel()
         {
+            _instance = this;
+            MessagingCenter.Subscribe<SettingsViewModel>(this, "OnPropertyChanged(nameof(IsBluetoothOn))", (sender) =>
+            {
+                _ = CheckBluetoothStatus();
+            });
         }
 
         public bool CheckBluetoothStatus()
         {
-            bool res = DependencyService.Get<IBluetooth>().CheckPermission(); 
-            if (res)
-            {
-                // wifi and cellular
-                var list = Xamarin.Essentials.Connectivity.ConnectionProfiles.ToList();
-            }
+            if (!DependencyService.Get<IBluetooth>().CheckPermission()) { return false; }
+            bool ibo = IsBluetoothOn;
+            OnPropertyChanged(nameof(IsBluetoothOn));
+            return ibo;
+        }
 
-            return false;
+        public static void CheckBluetoothStatusStatic()
+        {
+            MessagingCenter.Send(_instance!, "OnPropertyChanged(nameof(IsBluetoothOn))");
         }
     }
 }

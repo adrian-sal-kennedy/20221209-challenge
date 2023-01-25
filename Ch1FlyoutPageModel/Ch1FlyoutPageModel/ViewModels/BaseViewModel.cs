@@ -18,8 +18,7 @@ namespace Ch1FlyoutPageModel.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public bool HasAllPermissions => MissingPermissions is { Count: 0 };
-        private static bool isBluetoothOn;
-        public bool IsBluetoothOn => isBluetoothOn;
+        public bool IsBluetoothOn => DependencyService.Get<IBluetooth>().IsOn;
         public bool IsGpsOn { get; set; } = true;
         public bool IsInternetAvailable { get; set; }
         protected static ObservableCollection<IChPermission> missingPermissions = new();
@@ -47,7 +46,6 @@ namespace Ch1FlyoutPageModel.ViewModels
         }
         public BaseViewModel()
         {
-            MessagingCenter.Subscribe<BaseViewModel>(this, "BtPropertyChanged", (_) => OnPropertyChanged(nameof(IsBluetoothOn)));
         }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
@@ -60,12 +58,6 @@ namespace Ch1FlyoutPageModel.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
-        }
-        public static void SetIsBluetoothOn(bool arg)
-        {
-            isBluetoothOn = arg;
-            // hax to update all instances to fire propertychanged from a static method.
-            MessagingCenter.Send(new BaseViewModel(),"BtPropertyChanged");
         }
 
         #region INotifyPropertyChanged

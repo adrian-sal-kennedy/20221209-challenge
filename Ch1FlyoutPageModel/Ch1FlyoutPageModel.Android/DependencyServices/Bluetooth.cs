@@ -33,25 +33,11 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                 if (intent is not { Extras: { } }) { return; }
 
                 State state = (State)intent.GetIntExtra(BluetoothAdapter.ExtraState, -1);
-                BaseViewModel.SetIsBluetoothOn((int)state is not 10 or 11); // "Off" or "Turning On"
+                // BaseViewModel.SetIsBluetoothOn((int)state is not 10 or 11); // "Off" or "Turning On"
+                SettingsViewModel.CheckBluetoothStatusStatic();
             }
         }
-
-        private List<BluetoothDeviceDroid> GetBluetoothDevices()
-        {
-            List<BluetoothDeviceDroid> list = new();
-            if (BtAdapter is { IsEnabled: true, BondedDevices: { } devices })
-            {
-                list = devices.Select(d => new BluetoothDeviceDroid(d)).ToList();
-            }
-
-            return list;
-        }
-
-        public IEnumerable<IBluetoothDevice> Devices
-        {
-            get => GetBluetoothDevices();
-        }
+        public bool IsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
 
         public bool CheckPermission()
         {
