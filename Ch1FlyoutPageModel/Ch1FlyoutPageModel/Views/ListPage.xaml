@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             xmlns:ffi="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Name="listPage"
              x:Class="Ch1FlyoutPageModel.Views.ListPage">
     <Shell.TitleView>
@@ -31,14 +32,15 @@
                                 <StackLayout>
                                     <Label Text="{Binding Title}" />
                                     <!-- <WebView Source="{Binding Url}" /> -->
-                                    <Image>
-                                        <Image.Source>
-                                            <StreamImageSource
-                                                Stream="{Binding Url, Converter={StaticResource UriStringToStreamConverter}}" />
-                                            <!-- <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> -->
-                                            <!-- <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> -->
-                                        </Image.Source>
-                                    </Image>
+                                    <ffi:CachedImage Source="{Binding Url}" ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"/>
+                                    <!-- <Image> -->
+                                    <!--     <Image.Source> -->
+                                    <!--         <StreamImageSource -->
+                                    <!--             Stream="{Binding Url, Converter={StaticResource UriStringToStreamConverter}}" /> -->
+                                    <!--         ~1~ <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> @1@ -->
+                                    <!--         ~1~ <UriImageSource Uri="{Binding Url, Converter={StaticResource StringToUriConverter}}"/> @1@ -->
+                                    <!--     </Image.Source> -->
+                                    <!-- </Image> -->
                                     <!-- <Label Text="{Binding Url}"/> -->
                                     <!-- <Image x:Name="backgroundImage" Source="https:/.jpg"  -->
                                     <!--        AbsoluteLayout.LayoutBounds="0,0,1,1"  -->

@@ -8,6 +8,9 @@ namespace Ch1FlyoutPageModel.Views
         {
             InitializeComponent();
         }
+
+        public string ErrorPlaceholder => "https://makeawebsitehub.com/wp-content/uploads/2019/08/shrug-emoji-type.png";
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
