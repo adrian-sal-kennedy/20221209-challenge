@@ -201,4 +201,16 @@
   <data name="ToastLifecycleOnResume" xml:space="preserve">
       <value>App lifecycle OnResume invoked!</value>
   </data>
+  <data name="PermissionStatus" xml:space="preserve">
+      <value>Permission Status</value>
+  </data>
+  <data name="BluetoothStatus" xml:space="preserve">
+      <value>Bluetooth Status</value>
+  </data>
+  <data name="LocationStatus" xml:space="preserve">
+      <value>Location Status</value>
+  </data>
+  <data name="NetworkStatus" xml:space="preserve">
+      <value>Network Status</value>
+  </data>
 </root>

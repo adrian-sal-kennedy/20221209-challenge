@@ -21,6 +21,8 @@ namespace Ch1FlyoutPageModel.ViewModels
         public bool HasAllPermissions => MissingPermissions is { Count: 0 };
         public bool IsBluetoothOn => DependencyService.Get<IDevices>().BtIsOn;
         public bool IsGpsOn => DependencyService.Get<IDevices>().GpsIsOn;
+        // Yes, yes, I'm aware that the below doesn't actually guarantee Internet access.
+        // We could always ping google.com or something like it if we absolutely needed to be sure.
         public bool IsInternetAvailable => Connectivity.NetworkAccess == NetworkAccess.Internet;
         protected static ObservableCollection<IChPermission> missingPermissions = new();
 

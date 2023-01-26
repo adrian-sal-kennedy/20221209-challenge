@@ -212,5 +212,29 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("ToastLifecycleOnResume", resourceCulture);
             }
         }
+        
+        public static string PermissionStatus {
+            get {
+                return ResourceManager.GetString("PermissionStatus", resourceCulture);
+            }
+        }
+        
+        public static string BluetoothStatus {
+            get {
+                return ResourceManager.GetString("BluetoothStatus", resourceCulture);
+            }
+        }
+        
+        public static string LocationStatus {
+            get {
+                return ResourceManager.GetString("LocationStatus", resourceCulture);
+            }
+        }
+        
+        public static string NetworkStatus {
+            get {
+                return ResourceManager.GetString("NetworkStatus", resourceCulture);
+            }
+        }
     }
 }
