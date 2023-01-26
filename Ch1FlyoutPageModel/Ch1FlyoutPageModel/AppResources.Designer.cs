@@ -188,5 +188,29 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("BluetoothPermissionRationale", resourceCulture);
             }
         }
+        
+        public static string ToastNumberOfRecordsReturned {
+            get {
+                return ResourceManager.GetString("ToastNumberOfRecordsReturned", resourceCulture);
+            }
+        }
+        
+        public static string ToastLifecycleOnStart {
+            get {
+                return ResourceManager.GetString("ToastLifecycleOnStart", resourceCulture);
+            }
+        }
+        
+        public static string ToastLifecycleOnSleep {
+            get {
+                return ResourceManager.GetString("ToastLifecycleOnSleep", resourceCulture);
+            }
+        }
+        
+        public static string ToastLifecycleOnResume {
+            get {
+                return ResourceManager.GetString("ToastLifecycleOnResume", resourceCulture);
+            }
+        }
     }
 }

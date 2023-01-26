@@ -11,18 +11,26 @@ using AndroidX.Core.Content;
 using Ch1FlyoutPageModel.Models;
 using Application = Android.App.Application;
 
-[assembly: Dependency(typeof(Bluetooth))]
+[assembly: Dependency(typeof(Devices))]
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
-    public class Bluetooth : IBluetooth
-    {
-        public static Context Context => Application.Context;
+    using Android.Locations;
 
-        private BluetoothManager? bluetoothManager =
+    public class Devices : IDevices
+    {
+        private static Context Context => Application.Context;
+
+        private static LocationManager? locationManager =
+            Context.GetSystemService(Context.LocationService) as LocationManager;
+
+        private static BluetoothManager? bluetoothManager =
             Context.GetSystemService(Context.BluetoothService) as BluetoothManager;
 
-        public BluetoothAdapter? BtAdapter => bluetoothManager?.Adapter;
+        // and once again, Android changed this in API 31 so it's not going to be relevant beyond this exercise...
+        // private static string? bestProvider => locationManager?.GetBestProvider(new Criteria(null), true);
+        // private LocationProvider? LocationProvider => locationManager?.GetProvider(bestProvider ?? "");
+        private BluetoothAdapter? BtAdapter => bluetoothManager?.Adapter;
 
         // [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged }, Categories = new[] { Intent.CategoryDefault })]
         [BroadcastReceiver(Enabled = true, Exported = true)]
@@ -37,7 +45,10 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                 SettingsViewModel.CheckBluetoothStatusStatic();
             }
         }
-        public bool IsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
+
+        public bool BtIsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
+
+        public bool GpsIsOn => locationManager is { IsLocationEnabled: true };
 
         public bool CheckPermission()
         {

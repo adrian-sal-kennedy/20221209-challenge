@@ -65,11 +65,12 @@
         <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2545" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="DependencyServices\Bluetooth.cs" />
+        <Compile Include="DependencyServices\Devices.cs" />
         <Compile Include="DependencyServices\BluetoothDeviceDroid.cs" />
         <Compile Include="DependencyServices\ChPermissionDroid.cs" />
         <Compile Include="DependencyServices\PermissionAsker.cs" />
         <Compile Include="DependencyServices\RequestCodes.cs" />
+        <Compile Include="DependencyServices\ToastMessage.cs" />
         <Compile Include="MainActivity.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

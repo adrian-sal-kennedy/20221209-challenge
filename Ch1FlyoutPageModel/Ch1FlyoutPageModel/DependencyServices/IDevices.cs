@@ -3,9 +3,10 @@ using Ch1FlyoutPageModel.Interfaces;
 
 namespace Ch1FlyoutPageModel.DependencyServices
 {
-    public interface IBluetooth
+    public interface IDevices
     {
-        bool IsOn { get; }
+        bool BtIsOn { get; }
+        bool GpsIsOn { get; }
         bool CheckPermission();
     }
 }

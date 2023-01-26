@@ -17,7 +17,7 @@ namespace Ch1FlyoutPageModel.Droid
     {
         private Bundle? savedInstanceState;
         private PermissionAsker.PermissionReceiver? permissionReceiver;
-        private Bluetooth.BluetoothReceiver? bluetoothReceiver;
+        private Devices.BluetoothReceiver? bluetoothReceiver;
 
         protected override void OnCreate(Bundle savedInstanceStateArg)
         {
@@ -29,7 +29,7 @@ namespace Ch1FlyoutPageModel.Droid
             FFImageLoading.Forms.Platform.CachedImageRenderer.InitImageViewHandler();
             LoadApplication(new App());
             permissionReceiver = new PermissionAsker.PermissionReceiver();
-            bluetoothReceiver = new Bluetooth.BluetoothReceiver();
+            bluetoothReceiver = new Devices.BluetoothReceiver();
             // RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
         }
 

@@ -22,7 +22,7 @@ namespace Ch1FlyoutPageModel.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            vm?.CheckBluetoothStatus();
+            vm?.CheckDevicesStatuses();
         }
     }
 }

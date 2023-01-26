@@ -189,4 +189,16 @@
   <data name="BluetoothPermissionRationale" xml:space="preserve">
       <value>To meet the requirements :)</value>
   </data>
+  <data name="ToastNumberOfRecordsReturned" xml:space="preserve">
+      <value>{0} records returned from server!</value>
+  </data>
+  <data name="ToastLifecycleOnStart" xml:space="preserve">
+      <value>App lifecycle OnStart invoked!</value>
+  </data>
+  <data name="ToastLifecycleOnSleep" xml:space="preserve">
+      <value>App lifecycle OnSleep invoked!</value>
+  </data>
+  <data name="ToastLifecycleOnResume" xml:space="preserve">
+      <value>App lifecycle OnResume invoked!</value>
+  </data>
 </root>

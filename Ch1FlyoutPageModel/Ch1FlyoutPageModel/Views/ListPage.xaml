@@ -19,27 +19,32 @@
         <vm:ListViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid Padding="10" RowDefinitions="*">
-            <CollectionView Grid.Row="0"
-                            ItemsSource="{Binding Albums}">
-                <CollectionView.Header>
-                    <Label Text="{x:Static resources:AppResources.LabelListResults}" StyleClass="h1,bold" />
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView>
-                            <Frame CornerRadius="8" Margin="0,2">
-                                <StackLayout>
-                                    <Label Text="{Binding Title}" />
-                                    <ffi:CachedImage Source="{Binding Url}" ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"
-                                                     CacheType="Disk"/>
-                                    <!-- quick fix: CacheType="All" or "Memory" will cause the pic to be GC'd upon backgrounding. -->
-                                </StackLayout>
-                            </Frame>
-                        </ContentView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
+        <RefreshView x:Name="Refresher"
+                     Command="{Binding RefreshCommand}"
+                     CommandParameter="{x:Reference Refresher }">
+            <Grid Padding="10" RowDefinitions="*">
+                <CollectionView Grid.Row="0"
+                                ItemsSource="{Binding Albums}">
+                    <CollectionView.Header>
+                        <Label Text="{x:Static resources:AppResources.LabelListResults}" StyleClass="h1,bold" />
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView>
+                                <Frame CornerRadius="8" Margin="0,2">
+                                    <StackLayout>
+                                        <Label Text="{Binding Title}" />
+                                        <ffi:CachedImage Source="{Binding Url}"
+                                                         ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"
+                                                         CacheType="Disk" />
+                                        <!-- quick fix: CacheType="All" or "Memory" will cause the pic to be GC'd upon backgrounding. -->
+                                    </StackLayout>
+                                </Frame>
+                            </ContentView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>
