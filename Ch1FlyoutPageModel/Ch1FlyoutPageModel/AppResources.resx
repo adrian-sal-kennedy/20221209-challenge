@@ -213,4 +213,7 @@
   <data name="NetworkStatus" xml:space="preserve">
       <value>Network Status</value>
   </data>
+  <data name="TitleNotificationPage" xml:space="preserve">
+      <value>Notification</value>
+  </data>
 </root>
