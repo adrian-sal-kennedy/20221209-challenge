@@ -1,19 +1,13 @@
-// true
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Ch1FlyoutPageModel.Views
 {
+    using ar = AppResources;
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotificationPage : ContentPage
     {
+        public string ButtonText => 
         public NotificationPage()
         {
             InitializeComponent();

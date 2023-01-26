@@ -242,5 +242,11 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("TitleNotificationPage", resourceCulture);
             }
         }
+        
+        public static string SetAlarm {
+            get {
+                return ResourceManager.GetString("SetAlarm", resourceCulture);
+            }
+        }
     }
 }

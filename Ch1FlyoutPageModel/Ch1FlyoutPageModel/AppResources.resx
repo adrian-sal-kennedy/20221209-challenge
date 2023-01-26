@@ -216,4 +216,7 @@
   <data name="TitleNotificationPage" xml:space="preserve">
       <value>Notification</value>
   </data>
+  <data name="SetAlarm" xml:space="preserve">
+      <value>Set Alarm</value>
+  </data>
 </root>

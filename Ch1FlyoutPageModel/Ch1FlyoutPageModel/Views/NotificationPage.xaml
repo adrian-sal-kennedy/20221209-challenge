@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
@@ -24,9 +23,11 @@
             <ScrollView>
                 <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
                     <Grid>
-                        <Label Grid.Row="0"
+                        <Button Grid.Row="0"
                                Grid.Column="0"
-                               Text="{x:Static resources:AppResources.PermissionStatus}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Text="{x:Static resources:AppResources.SetAlarm}"
                                StyleClass="h3,bold" />
                     </Grid>
                 </ContentView>

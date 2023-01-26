@@ -5,6 +5,7 @@
        xmlns:local="clr-namespace:Ch1FlyoutPageModel.Views"
        xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
        Title="Ch1FlyoutPageModel"
+       Visual="Material"
        x:Class="Ch1FlyoutPageModel.AppShell">
 
     <!--
