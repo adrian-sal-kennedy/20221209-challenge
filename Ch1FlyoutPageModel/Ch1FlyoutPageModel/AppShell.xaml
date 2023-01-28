@@ -5,6 +5,7 @@
        xmlns:local="clr-namespace:Ch1FlyoutPageModel.Views"
        xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
        Title="Ch1FlyoutPageModel"
+       Visual="Material"
        x:Class="Ch1FlyoutPageModel.AppShell">
 
     <!--
@@ -95,6 +96,9 @@
     </FlyoutItem>
     <FlyoutItem Title="{x:Static resources:AppResources.TitleSettingsPage}" Icon="icon_about.png">
         <ShellContent Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="{x:Static resources:AppResources.TitleNotificationPage}" Icon="icon_about.png">
+        <ShellContent Route="Notification" ContentTemplate="{DataTemplate local:NotificationPage}" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

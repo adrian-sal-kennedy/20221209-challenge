@@ -248,11 +248,5 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("SetAlarm", resourceCulture);
             }
         }
-        
-        public static string Title {
-            get {
-                return ResourceManager.GetString("Title", resourceCulture);
-            }
-        }
     }
 }

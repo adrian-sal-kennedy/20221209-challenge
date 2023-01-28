@@ -7,7 +7,7 @@ namespace Ch1FlyoutPageModel.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotificationPage : ContentPage
     {
-        // public string ButtonText => ar.
+        public string ButtonText => 
         public NotificationPage()
         {
             InitializeComponent();

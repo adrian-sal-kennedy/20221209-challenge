@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Name="notificationPage"
+             x:Class="Ch1FlyoutPageModel.Views.NotificationPage">
+    <Shell.TitleView>
+        <Label Text="{x:Static resources:AppResources.TitleNotificationPage}"
+               TextColor="White"
+               FontSize="Title"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:NotificationViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <RefreshView x:Name="Refresher"
+                     Command="{Binding SetAlarmCommand}"
+                     CommandParameter="{x:Reference Refresher }">
+            <ScrollView>
+                <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
+                    <Grid>
+                        <Button Grid.Row="0"
+                               Grid.Column="0"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Start"
+                               Text="{x:Static resources:AppResources.SetAlarm}"
+                               StyleClass="h3,bold" />
+                    </Grid>
+                </ContentView>
+            </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
