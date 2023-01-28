@@ -8,8 +8,9 @@ namespace Ch1FlyoutPageModel.Interfaces
     {
         Permission PermissionType { get; set; }
         string PermissionName { get; }
-        string PermissionDescription { get; set; }
-        string PermissionRationale { get; set; }
-        bool IsPermitted { get; }
+        string? PermissionDescription { get; set; }
+        string? PermissionRationale { get; set; }
+        bool IsGranted { get; }
+        bool IsEssentialForAppToRunProperly { get; }
     }
 }

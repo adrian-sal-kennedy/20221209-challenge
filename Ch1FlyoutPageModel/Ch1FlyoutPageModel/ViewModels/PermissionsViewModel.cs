@@ -55,7 +55,7 @@ namespace Ch1FlyoutPageModel.ViewModels
                     i--;
                 }
             });
-            await Shell.Current.GoToAsync("//List");
+            await AppShell.GoToOnMainThreadAsync("//List");
         }
     }
 }

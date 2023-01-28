@@ -36,7 +36,7 @@ namespace Ch1FlyoutPageModel.ViewModels
             }
         }
 
-        bool isBusy = false;
+        bool isBusy;
 
         public bool IsBusy
         {

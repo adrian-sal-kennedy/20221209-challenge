@@ -17,7 +17,6 @@ namespace Ch1FlyoutPageModel
             InitializeComponent();
 
             MainPage = new AppShell();
-            // DependencyService.Register<MockDataStore>();
             List<IChPermission> permissions = DependencyService.Get<IPermissionAsker>().CheckAllPermissions().ToList() ?? new();
             PermissionsViewModel.SetPermissions(permissions);
         }
@@ -25,11 +24,13 @@ namespace Ch1FlyoutPageModel
         protected override void OnStart()
         {
             DependencyService.Get<IToastMessage>().Show(ar.ToastLifecycleOnStart);
+            AppShellViewModel.GetUser();
         }
 
         protected override void OnSleep()
         {
             DependencyService.Get<IToastMessage>().Show(ar.ToastLifecycleOnSleep);
+            AppShellViewModel.SetUser();
         }
 
         protected override void OnResume()

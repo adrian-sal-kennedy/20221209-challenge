@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Ch1FlyoutPageModel.Droid
 {
+    using Ch1FlyoutPageModel.DependencyServices;
+    using Xamarin.Forms;
+
     [Activity(Label = "Ch1FlyoutPageModel", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |
                                ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
@@ -18,19 +21,20 @@ namespace Ch1FlyoutPageModel.Droid
         private Bundle? savedInstanceState;
         private PermissionAsker.PermissionReceiver? permissionReceiver;
         private Devices.BluetoothReceiver? bluetoothReceiver;
+        public static int ApiLevel => (int)Build.VERSION.SdkInt;
 
         protected override void OnCreate(Bundle savedInstanceStateArg)
         {
             base.OnCreate(savedInstanceStateArg);
             savedInstanceState = savedInstanceStateArg;
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true); 
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             Xamarin.Essentials.Platform.Init(this, savedInstanceStateArg);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceStateArg);
+            Forms.Init(this, savedInstanceStateArg);
+            FormsMaterial.Init(this, savedInstanceStateArg);
             FFImageLoading.Forms.Platform.CachedImageRenderer.InitImageViewHandler();
             LoadApplication(new App());
             permissionReceiver = new PermissionAsker.PermissionReceiver();
             bluetoothReceiver = new Devices.BluetoothReceiver();
-            // RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -45,8 +49,8 @@ namespace Ch1FlyoutPageModel.Droid
             if (savedInstanceState != null)
             {
                 Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-                Xamarin.Forms.Forms.Init(this, savedInstanceState);
-                Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+                Forms.Init(this, savedInstanceState);
+                FormsMaterial.Init(this, savedInstanceState);
             }
 
             RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
@@ -54,7 +58,7 @@ namespace Ch1FlyoutPageModel.Droid
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
-            [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+            [GeneratedEnum] Permission[] grantResults)
         {
             PermissionAsker.PermissionReceivedThankYou.TrySetResult(grantResults.Any(gr => (int)gr != -1));
             PermissionAsker.PermissionReceivedThankYou = new TaskCompletionSource<bool>();
@@ -64,6 +68,7 @@ namespace Ch1FlyoutPageModel.Droid
 
         protected override void OnPause()
         {
+            DependencyService.Get<IToastMessage>().Show(AppResources.ToastLifecycleOnPause);
             base.OnPause();
             UnregisterReceiver(permissionReceiver);
             UnregisterReceiver(bluetoothReceiver);

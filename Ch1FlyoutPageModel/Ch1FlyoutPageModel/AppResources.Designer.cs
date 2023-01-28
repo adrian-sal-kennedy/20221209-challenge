@@ -248,5 +248,23 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("SetAlarm", resourceCulture);
             }
         }
+        
+        public static string ToastLifecycleOnPause {
+            get {
+                return ResourceManager.GetString("ToastLifecycleOnPause", resourceCulture);
+            }
+        }
+        
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
     }
 }

@@ -44,8 +44,6 @@
     <Style TargetType="Label"
            Class="body"
            BasedOn="{StaticResource label}">
-        <Setter Property="FontSize"
-                Value="Body" />
     </Style>
     <Style TargetType="Label"
            Class="small"
@@ -53,9 +51,16 @@
         <Setter Property="FontSize"
                 Value="Small" />
     </Style>
+    <Style TargetType="Button"
+           ApplyToDerivedTypes="True">
+        <Setter Property="Padding"
+                Value="-10,-5" />
+    </Style>
     <Style TargetType="ContentPage"
            ApplyToDerivedTypes="True">
-            <Setter Property="BackgroundColor"
-                    Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}"/>
+        <Setter Property="Visual"
+                Value="Material" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
     </Style>
 </ResourceDictionary>

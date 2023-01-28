@@ -11,27 +11,36 @@ namespace Ch1FlyoutPageModel.Models
     {
         [EnumDescriptionResource("Undefined", typeof(AppResources))]
         Undefined = 0,
+
         [EnumDescriptionResource("LocationAlwaysAllow", typeof(AppResources))]
         LocationAlwaysAllow,
+
         [EnumDescriptionResource("LocationOnlyForeground", typeof(AppResources))]
         LocationOnlyForeground,
+
         [EnumDescriptionResource("ActivityRecognition", typeof(AppResources))]
         ActivityRecognition,
+
         [EnumDescriptionResource("Camera", typeof(AppResources))]
         Camera,
+
         [EnumDescriptionResource("Bluetooth", typeof(AppResources))]
         Bluetooth,
     }
+
     public class ChPermission : IChPermission
     {
         public Permission PermissionType { get; set; } = 0;
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
-        public string PermissionDescription { get; set; } = "";
-        public string PermissionRationale { get; set; } = "";
-        public bool IsPermitted { get; }
-        public ChPermission(Permission perm)
+        public string? PermissionDescription { get; set; } = "";
+        public string? PermissionRationale { get; set; } = "";
+        public bool IsGranted { get; }
+        public bool IsEssentialForAppToRunProperly { get; }
+
+        public ChPermission(Permission perm, bool isEssential = false)
         {
             PermissionType = perm;
-        } 
+            IsEssentialForAppToRunProperly = isEssential;
+        }
     }
 }

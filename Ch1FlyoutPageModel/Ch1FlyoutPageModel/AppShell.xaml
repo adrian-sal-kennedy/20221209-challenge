@@ -4,37 +4,32 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Ch1FlyoutPageModel.Views"
        xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+       xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
        Title="Ch1FlyoutPageModel"
        Visual="Material"
+       x:Name="MainShell"
        x:Class="Ch1FlyoutPageModel.AppShell">
-
-    <!--
-        The overall app visual hierarchy is defined here, along with navigation.
-
-        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
-    -->
-
     <Shell.Resources>
         <ResourceDictionary Source="Views/Styles/UiElements.xaml" />
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
-                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
-                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
+                <Setter Property="Shell.BackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
+                <Setter Property="Shell.ForegroundColor"
+                        Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
+                <Setter Property="Shell.TitleColor"
+                        Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
                 <Setter Property="Shell.DisabledColor" Value="#70FFFFFF" />
                 <Setter Property="Shell.UnselectedColor" Value="#30FFFFFF" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
+                <Setter Property="Shell.TabBarBackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
+                <Setter Property="Shell.TabBarForegroundColor"
+                        Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
                 <Setter Property="Shell.TabBarUnselectedColor" Value="#30FFFFFF" />
                 <Setter Property="Shell.TabBarTitleColor" Value="White" />
             </Style>
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-
-            <!--
-            Default Styles for all Flyout Items
-            https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
-            -->
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White"></Setter>
             </Style>
@@ -52,17 +47,14 @@
                             </VisualState>
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
+                                    <Setter Property="BackgroundColor"
+                                            Value="{AppThemeBinding Light={StaticResource L7}, Dark={StaticResource L3}}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-
-            <!--
-            Custom Style you can apply to any Flyout Item
-            -->
             <Style Class="MenuItemLayoutStyle" TargetType="Layout" ApplyToDerivedTypes="True">
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
@@ -79,15 +71,105 @@
             </Style>
         </ResourceDictionary>
     </Shell.Resources>
-
-    <!--
-        When the Flyout is visible this defines the content to display in the flyout.
-        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element
-        https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
-    -->
-    <!-- <FlyoutItem Title="FlyoutPageModel App" Icon="icon_about.png"> -->
-    <!--     <ShellContent Route="LandingPage" ContentTemplate="{DataTemplate local:LandingPage}" /> -->
-    <!-- </FlyoutItem> -->
+    <Shell.BindingContext>
+        <vm:AppShellViewModel />
+    </Shell.BindingContext>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <ContentView x:Name="UserProfile"
+                         Padding="8"
+                         ControlTemplate="{DynamicResource DefaultUserProfileView}">
+                <ContentView.Resources>
+                    <ControlTemplate x:Key="DefaultUserProfileView">
+                        <Grid RowDefinitions="auto,auto"
+                              ColumnDefinitions="auto,*"
+                              BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:AppShellViewModel}}, Path=.}"
+                              RowSpacing="0"
+                              ColumnSpacing="8">
+                            <Frame Grid.Column="0"
+                                   WidthRequest="64"
+                                   HeightRequest="64"
+                                   CornerRadius="32"
+                                   Padding="0"
+                                   Margin="0"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Start"
+                                   BackgroundColor="OrangeRed">
+                                <Label StyleClass="h1,bold"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Text="{Binding AppUser.Initials}" />
+                            </Frame>
+                            <Label Grid.Column="1"
+                                   Text="{Binding AppUser.FullName}"
+                                   StyleClass="h1"
+                                   MaxLines="1"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="TailTruncation" />
+                            <Button Grid.Column="1"
+                                    Text="{x:Static resources:AppResources.Edit}"
+                                    Clicked="OnEditButtonClicked"
+                                    WidthRequest="48"
+                                    Padding="-10,-5"
+                                    Margin="10,0"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                    <ControlTemplate x:Key="EditView">
+                        <Grid BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:AppShellViewModel}}, Path=.}"
+                              RowDefinitions="80,*,*,*,*,auto"
+                              RowSpacing="0">
+                            <StackLayout Grid.Row="0"
+                                         Orientation="Horizontal">
+                                <Frame WidthRequest="64"
+                                       HeightRequest="64"
+                                       CornerRadius="32"
+                                       Padding="0"
+                                       Margin="0"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Start"
+                                       BackgroundColor="OrangeRed">
+                                    <Label StyleClass="h1,bold"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           Text="{Binding AppUser.Initials}" />
+                                </Frame>
+                                <Label Text="{Binding AppUser.FullName}"
+                                       StyleClass="h2"
+                                       MaxLines="1"
+                                       VerticalOptions="Center"
+                                       LineBreakMode="TailTruncation" />
+                            </StackLayout>
+                            <Entry Grid.Row="1"
+                                   Text="{Binding AppUser.FirstName}"
+                                   WidthRequest="120"
+                                   HorizontalOptions="Center" />
+                            <Entry Grid.Row="2"
+                                   Text="{Binding AppUser.NickName}"
+                                   WidthRequest="120"
+                                   HorizontalOptions="Center" />
+                            <Entry Grid.Row="3"
+                                   Text="{Binding AppUser.MiddleName}"
+                                   WidthRequest="120"
+                                   HorizontalOptions="Center" />
+                            <Entry Grid.Row="4"
+                                   Text="{Binding AppUser.LastName}"
+                                   WidthRequest="120"
+                                   HorizontalOptions="Center" />
+                            <Button Grid.Row="5"
+                                    Text="{x:Static resources:AppResources.Save}"
+                                    Clicked="OnSaveButtonClicked"
+                                    WidthRequest="80"
+                                    Padding="-10,-5"
+                                    Margin="10,5"
+                                    HorizontalOptions="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </ContentView.Resources>
+            </ContentView>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
     <FlyoutItem Title="{x:Static resources:AppResources.TitlePermissionsPage}" Icon="icon_about.png">
         <ShellContent Route="Permissions" ContentTemplate="{DataTemplate local:PermissionsPage}" />
     </FlyoutItem>
@@ -100,53 +182,4 @@
     <FlyoutItem Title="{x:Static resources:AppResources.TitleNotificationPage}" Icon="icon_about.png">
         <ShellContent Route="Notification" ContentTemplate="{DataTemplate local:NotificationPage}" />
     </FlyoutItem>
-
-    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <!-- <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"> -->
-    <!-- </MenuItem> -->
-
-    <!--
-        TabBar lets you define content that won't show up in a flyout menu. When this content is active
-        the flyout menu won't be available. This is useful for creating areas of the application where
-        you don't want users to be able to navigate away from. If you would like to navigate to this
-        content you can do so by calling
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
-    <!-- <TabBar> -->
-    <!--     <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" /> -->
-    <!-- </TabBar> -->
-
-    <!-- Optional Templates
-    // These may be provided inline as below or as separate classes.
-
-    // This header appears at the top of the Flyout.
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header
-    <Shell.FlyoutHeaderTemplate>
-        <DataTemplate>
-            <Grid>ContentHere</Grid>
-        </DataTemplate>
-    </Shell.FlyoutHeaderTemplate>
-
-    // ItemTemplate is for ShellItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-flyoutitem-appearance
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Title, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.ItemTemplate>
-
-    // MenuItemTemplate is for MenuItems as displayed in a Flyout
-    // https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-menuitem-appearance
-    <Shell.MenuItemTemplate>
-        <DataTemplate>
-            <ContentView>
-                Bindable Properties: Text, Icon
-            </ContentView>
-        </DataTemplate>
-    </Shell.MenuItemTemplate>
-
-    -->
-
 </Shell>

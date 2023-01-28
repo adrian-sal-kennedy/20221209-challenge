@@ -38,14 +38,20 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         public async Task<bool> AskPermission(IChPermission? permission)
         {
             if (permission is not { }) { return false; }
+
             var perm = new ChPermissionDroid(permission);
             var permArr = perm.ToStringArray();
             // var prec = new PermissionReceiver();
             // Activity.RegisterReceiver(prec, new IntentFilter(Activity.PackageName));
-            var permcheck = ContextCompat.CheckSelfPermission(Context, perm.ToStringArray().First());
-            if (permcheck != 0)
+            List<Android.Content.PM.Permission> permcheck = new();
+            foreach (var prmStr in permArr)
             {
-                await Device.InvokeOnMainThreadAsync(async () =>
+                permcheck.Add(ContextCompat.CheckSelfPermission(Context, prmStr));
+            }
+
+            if (permcheck.Any(p => p != Android.Content.PM.Permission.Granted))
+            {
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     ActivityCompat.RequestPermissions(
                         Activity,
@@ -59,8 +65,18 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     // anything here?
                 }
             }
-            permcheck = ContextCompat.CheckSelfPermission(Context, perm.ToStringArray().First());
-            return permcheck == 0;
+            else
+            {
+                return true;
+            }
+
+            permcheck.Clear();
+            foreach (var prmStr in permArr)
+            {
+                permcheck.Add(ContextCompat.CheckSelfPermission(Context, prmStr));
+            }
+
+            return permcheck.All(p => p == Android.Content.PM.Permission.Granted);
         }
 
         public IEnumerable<IChPermission> CheckAllPermissions()
@@ -90,8 +106,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             {
                 count.Add(new ChPermission(Permission.Camera)
                 {
-                    PermissionDescription = ar.CameraDescription,
-                    PermissionRationale = ar.CameraRationale,
+                    PermissionDescription = ar.CameraDescription, PermissionRationale = ar.CameraRationale,
                 });
             }
 

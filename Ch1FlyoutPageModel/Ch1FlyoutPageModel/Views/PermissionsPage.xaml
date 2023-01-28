@@ -35,7 +35,7 @@
                                 <!--         Command="{Binding BindingContext.AskPermissionCommand, Source={x:Reference permissionsPage}}" /> -->
                                 <!-- </ContentView.GestureRecognizers> -->
                                 <Frame BackgroundColor="White"
-                                       BorderColor="{Binding IsPermitted, Converter={StaticResource PermissionBoolToColourConverter}}"
+                                       BorderColor="{Binding IsGranted, Converter={StaticResource PermissionBoolToColourConverter}}"
                                        CornerRadius="10">
                                     <FlexLayout Wrap="Wrap"
                                                 AlignItems="Start">
