@@ -2,9 +2,6 @@ using Newtonsoft.Json;
 
 namespace Ch1FlyoutPageModel.Models
 {
-    using System;
-    using System.Diagnostics;
-
     /// <summary>
     /// Model to contain the API response we're working with. Looking at the data
     /// it appears to represent an Album, so I've named it thus. I've made it a

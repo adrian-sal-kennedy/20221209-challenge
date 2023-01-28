@@ -31,14 +31,35 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <ContentView>
-                                <Frame CornerRadius="8" Margin="0,2">
-                                    <StackLayout>
-                                        <Label Text="{Binding Title}" />
-                                        <ffi:CachedImage Source="{Binding Url}"
+                                <Frame CornerRadius="8" Margin="0,2" Padding="0">
+                                    <Grid HeightRequest="160"
+                                          ColumnSpacing="8"
+                                          RowDefinitions="*,auto,*"
+                                          ColumnDefinitions="160,auto,auto">
+                                        <ffi:CachedImage Grid.Column="0"
+                                                         Grid.RowSpan="3"
+                                                         Aspect="AspectFill"
+                                                         HorizontalOptions="Start"
+                                                         Source="{Binding Url}"
                                                          ErrorPlaceholder="{Binding ErrorPlaceholder, Source={x:Reference listPage}}"
                                                          CacheType="Disk" />
+                                        <Label Grid.Row="1"
+                                               Grid.ColumnSpan="1"
+                                               Grid.Column="1"
+                                               HorizontalOptions="Start"
+                                               VerticalOptions="Start"
+                                               Text="Title:" />
+                                        <!-- Text="{x:Static resources:AppResources.Title}" /> -->
+                                        <Label Grid.Row="1"
+                                               Grid.Column="2"
+                                               HorizontalOptions="Start"
+                                               VerticalOptions="Start"
+                                               Text="{Binding Title}"
+                                               MaxLines="5"
+                                               LineBreakMode="TailTruncation"
+                                               Margin="0,0,8,0" />
                                         <!-- quick fix: CacheType="All" or "Memory" will cause the pic to be GC'd upon backgrounding. -->
-                                    </StackLayout>
+                                    </Grid>
                                 </Frame>
                             </ContentView>
                         </DataTemplate>

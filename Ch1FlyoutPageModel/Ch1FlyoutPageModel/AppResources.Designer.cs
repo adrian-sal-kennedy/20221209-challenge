@@ -236,5 +236,23 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("NetworkStatus", resourceCulture);
             }
         }
+        
+        public static string TitleNotificationPage {
+            get {
+                return ResourceManager.GetString("TitleNotificationPage", resourceCulture);
+            }
+        }
+        
+        public static string SetAlarm {
+            get {
+                return ResourceManager.GetString("SetAlarm", resourceCulture);
+            }
+        }
+        
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
     }
 }
