@@ -7,12 +7,18 @@ using System.ComponentModel;
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using AndroidX.Core.App;
+    using Xamarin.Essentials;
     using Xamarin.Forms;
 
     public class ChPermissionDroid : IChPermission
     {
+        private MainActivity Activity => (Platform.CurrentActivity as MainActivity)!;
         public Permission PermissionType { get; set; }
+        public List<object> NativePermissions { get; } = new();
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
         public string? PermissionDescription { get; set; }
         public string? PermissionRationale { get; set; }
@@ -31,45 +37,57 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         {
             PermissionType = perm;
             IsEssentialForAppToRunProperly = isEssential;
-        }
 
-        public string[] ToStringArray()
-        {
-            // this switch case could go on forever, but Xamarin.Forms is cross-platform and
-            // it's nice to have room for these values to change around
-            switch (PermissionType)
+            switch (perm)
             {
                 case Permission.Camera:
-                    return new[] { Manifest.Permission.Camera };
+                    NativePermissions.Add(Manifest.Permission.Camera);
+                    break;
                 case Permission.ActivityRecognition:
                     if (MainActivity.ApiLevel >= 29)
                     {
-                        return new[] { Manifest.Permission.ActivityRecognition };
+                        NativePermissions.Add(Manifest.Permission.ActivityRecognition);
                     }
 
                     break;
                 case Permission.LocationAlwaysAllow:
-                    var arr = new List<string>()
-                    {
-                        Manifest.Permission.AccessFineLocation, 
-                        Manifest.Permission.AccessCoarseLocation,
-                    };
+                    NativePermissions.AddRange(new[]
+                        {
+                            Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation,
+                        }
+                    );
                     if (MainActivity.ApiLevel >= 29)
                     {
-                        arr.Add(Manifest.Permission.AccessBackgroundLocation);
+                        NativePermissions.Add(Manifest.Permission.AccessBackgroundLocation);
+                        IsEssentialForAppToRunProperly = true;
                     }
 
-                    return arr.ToArray();
+                    break;
                 case Permission.LocationOnlyForeground:
-                    return new[] { Manifest.Permission.AccessFineLocation,
-                        Manifest.Permission.AccessCoarseLocation, };
+                    NativePermissions.AddRange(new[]
+                    {
+                        Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation,
+                    });
+                    break;
                 case Permission.Bluetooth:
-                    return new[] { Manifest.Permission.Bluetooth,
-                        Manifest.Permission.BluetoothAdmin, };
-                default:
-                    return new[] { string.Empty };
+                    NativePermissions.AddRange(new[]
+                    {
+                        Manifest.Permission.Bluetooth, Manifest.Permission.BluetoothAdmin,
+                    });
+                    break;
             }
-            return new string[] { };
+        }
+
+        public string[] ToStringArray()
+        {
+            return NativePermissions.Select(p => p.ToString()).ToArray();
+        }
+
+        public bool ShouldShowRationale()
+        {
+            return NativePermissions.Aggregate(false,
+                (agg, p) => agg | ActivityCompat.ShouldShowRequestPermissionRationale(Activity, p.ToString()) ||
+                            IsEssentialForAppToRunProperly);
         }
     }
 }

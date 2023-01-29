@@ -7,6 +7,8 @@ using Xamarin.Essentials;
 
 namespace Ch1FlyoutPageModel.Models
 {
+    using System.Collections.Generic;
+
     public enum Permission : int
     {
         [EnumDescriptionResource("Undefined", typeof(AppResources))]
@@ -30,7 +32,8 @@ namespace Ch1FlyoutPageModel.Models
 
     public class ChPermission : IChPermission
     {
-        public Permission PermissionType { get; set; } = 0;
+        public Permission PermissionType { get; set; }
+        public List<object> NativePermissions { get; } = new();
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
         public string? PermissionDescription { get; set; } = "";
         public string? PermissionRationale { get; set; } = "";

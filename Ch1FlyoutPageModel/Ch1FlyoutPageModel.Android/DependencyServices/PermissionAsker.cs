@@ -60,9 +60,34 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                     );
                 });
                 bool res = await PermissionReceivedThankYou.Task;
-                if (res)
+                if (!res && perm.IsEssentialForAppToRunProperly)
                 {
-                    // anything here?
+                    if (perm.ShouldShowRationale())
+                    {
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+                        // var dialog = new AlertDialog.Builder(this)
+                        //     .SetTitle("Permission needed")
+                        //     .SetMessage(
+                        //         "This permission is needed because we need access to your camera to take a photo.")
+                        //     .SetPositiveButton("OK", (sender, args) =>
+                        //     {
+                        //         ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.CAMERA },
+                        //             requestCode);
+                        //     })
+                        //     .SetNegativeButton("Cancel", (sender, args) =>
+                        //     {
+                        //         // User denied permission
+                        //     })
+                        //     .Create();
+                        // dialog.Show();
+                    }
+                    else
+                    {
+                        // No explanation needed; request the permission
+                        // ActivityCompat.RequestPermissions(this, new[] { Manifest.Permission.CAMERA }, requestCode);
+                    }
                 }
             }
             else

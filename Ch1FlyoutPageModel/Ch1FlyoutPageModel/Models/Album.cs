@@ -14,13 +14,7 @@ namespace Ch1FlyoutPageModel.Models
         [JsonProperty("id")] public int Id { get; set; }
         [JsonProperty("title")] public string? Title { get; set; }
 
-        // public string? Url
-        // {
-        //     get => "http://loremflickr.com/600/600/nature?filename=simple.jpg";
-        //     set => Debug.WriteLine(value);
-        // }
         [JsonProperty("url")]
-
         public string? Url { get; set; }
         [JsonProperty("thumbnailUrl")] public string? ThumbnailUrl { get; set; }
     }
