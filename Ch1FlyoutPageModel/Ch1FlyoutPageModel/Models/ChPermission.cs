@@ -1,15 +1,13 @@
 ﻿using Ch1FlyoutPageModel.Helpers;
 using Ch1FlyoutPageModel.Interfaces;
-using System;
 using System.ComponentModel;
-using System.Resources;
-using Xamarin.Essentials;
 
 namespace Ch1FlyoutPageModel.Models
 {
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
-    public enum Permission : int
+    public enum Permission
     {
         [EnumDescriptionResource("Undefined", typeof(AppResources))]
         Undefined = 0,
@@ -30,20 +28,52 @@ namespace Ch1FlyoutPageModel.Models
         Bluetooth,
     }
 
-    public class ChPermission : IChPermission
+    public class ChPermission : IChPermission, INotifyPropertyChanged
     {
         public Permission PermissionType { get; set; }
-        public List<object> NativePermissions { get; } = new();
+        public List<object> NativePermissions { get; set; } = new();
         public string PermissionName => PermissionType.GetAttributeOfType<DescriptionAttribute>().Description ?? "";
         public string? PermissionDescription { get; set; } = "";
+
         public string? PermissionRationale { get; set; } = "";
-        public bool IsGranted { get; }
+        private bool isGranted;
+
+        public bool IsGranted
+        {
+            get => isGranted;
+            set => SetProperty(ref isGranted, value);
+        }
+
         public bool IsEssentialForAppToRunProperly { get; }
 
         public ChPermission(Permission perm, bool isEssential = false)
         {
             PermissionType = perm;
             IsEssentialForAppToRunProperly = isEssential;
+        }
+        public ChPermission(IChPermission perm)
+        {
+            PermissionType = perm.PermissionType;
+            PermissionDescription = perm.PermissionDescription;
+            PermissionRationale = perm.PermissionRationale;
+            NativePermissions = perm.NativePermissions;
+            IsEssentialForAppToRunProperly = perm.IsEssentialForAppToRunProperly;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+                return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }

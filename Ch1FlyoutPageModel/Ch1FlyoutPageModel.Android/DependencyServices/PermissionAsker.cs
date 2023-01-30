@@ -18,6 +18,8 @@ using Application = Android.App.Application;
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
+    using Android.App;
+
     public class PermissionAsker : IPermissionAsker
     {
         public static Context Context => Application.Context;
@@ -25,6 +27,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         public static TaskCompletionSource<bool> PermissionReceivedThankYou = new();
 
         [BroadcastReceiver(Enabled = true, Exported = false)]
+        // [IntentFilter(Android.Content.ContextWrapper.PackageName)]
         public class PermissionReceiver : BroadcastReceiver
         {
             public override void OnReceive(Context context, Intent intent)
@@ -106,36 +109,25 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
 
         public IEnumerable<IChPermission> CheckAllPermissions()
         {
-            var count = new List<ChPermission>() { };
-            // note that we add to the list when we *don't* have permission.
-            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessWifiState) < 0
-                || (int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.AccessBackgroundLocation) < 0)
+            var perms = new List<IChPermission>()
             {
-                count.Add(new ChPermission(Permission.LocationAlwaysAllow)
+                new ChPermissionDroid(Permission.LocationAlwaysAllow, true)
                 {
                     PermissionDescription = ar.LocationAlwaysAllowDescription,
                     PermissionRationale = ar.LocationAlwaysAllowRationale,
-                });
-            }
-
-            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ActivityRecognition) < 0)
-            {
-                count.Add(new ChPermission(Permission.ActivityRecognition)
+                },
+                new ChPermissionDroid(Permission.ActivityRecognition, true)
                 {
                     PermissionDescription = ar.ActivityRecognitionDescription,
                     PermissionRationale = ar.ActivityRecognitionRationale,
-                });
-            }
-
-            if ((int)ContextCompat.CheckSelfPermission(Context, Manifest.Permission.Camera) < 0)
-            {
-                count.Add(new ChPermission(Permission.Camera)
+                },
+                new ChPermissionDroid(Permission.Camera, true)
                 {
                     PermissionDescription = ar.CameraDescription, PermissionRationale = ar.CameraRationale,
-                });
-            }
+                },
+            };
 
-            return count;
+            return perms;
         }
     }
 }

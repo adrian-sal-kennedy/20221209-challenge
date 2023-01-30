@@ -8,20 +8,22 @@ using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.ViewModels
 {
+    using System.Linq;
+
     public class PermissionsViewModel : BaseViewModel
     {
-        private IChPermission? selectedPermission;
-        public IChPermission? SelectedPermission
+        private ChPermission? selectedPermission;
+
+        public ChPermission? SelectedPermission
         {
             get => selectedPermission;
-            set => SetProperty(ref selectedPermission, value ?? new ChPermission(new()));
+            set => SetProperty(ref selectedPermission, value);
         }
 
         public ICommand AskPermissionCommand { get; private set; }
 
         public PermissionsViewModel()
         {
-            new Command(AskPermissions);
             AskPermissionCommand = new Command((perm) =>
             {
                 if (perm is IChPermission p)
@@ -33,28 +35,27 @@ namespace Ch1FlyoutPageModel.ViewModels
 
         public static void SetPermissions(IEnumerable<IChPermission> perms)
         {
-            missingPermissions = new(perms);
+            permissions = new(perms.Select(p => new ChPermission(p)));
         }
 
         public async void AskPermissions()
         {
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
                 // Given we need to wait for user interaction it's not performance constrained.
-                int cnt = missingPermissions.Count;
-                for (int i = cnt; i > 0;)
+                int cnt = permissions.Count;
+                foreach (var perm in permissions)
                 {
-                    var perm = missingPermissions[i - 1];
                     bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
                     if (res)
                     {
-                        missingPermissions.Remove(perm);
-                        OnPropertyChanged(nameof(MissingPermissions));
+                        // DependencyService.Get<IToastMessage>().Show(AppResources.ToastPermissionGranted);
                     }
-                    i--;
+
+                    OnPropertyChanged(nameof(Permissions));
                 }
-            });
+            }).Wait();
             await AppShell.GoToOnMainThreadAsync("//List");
         }
     }

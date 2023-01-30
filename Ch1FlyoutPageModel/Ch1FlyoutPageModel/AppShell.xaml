@@ -3,6 +3,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Ch1FlyoutPageModel.Views"
+       xmlns:c="clr-namespace:Ch1FlyoutPageModel.Views.Components;assembly=Ch1FlyoutPageModel"
        xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
        xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
        Title="Ch1FlyoutPageModel"
@@ -106,13 +107,22 @@
                                    MaxLines="1"
                                    VerticalOptions="Center"
                                    LineBreakMode="TailTruncation" />
-                            <Button Grid.Column="1"
-                                    Text="{x:Static resources:AppResources.Edit}"
-                                    Clicked="OnEditButtonClicked"
-                                    Padding="-20,-5"
-                                    Margin="10,0"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Center" />
+                            <c:EditPencilIcon x:Name="EditIconPath"
+                                              Grid.Column="1"
+                                              Margin="10,0"
+                                              HorizontalOptions="End"
+                                              VerticalOptions="Center">
+                                <c:EditPencilIcon.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnEditButtonClicked" />
+                                </c:EditPencilIcon.GestureRecognizers>
+                            </c:EditPencilIcon>
+                            <!-- <Button Grid.Column="1" -->
+                            <!--         Text="{x:Static resources:AppResources.Edit}" -->
+                            <!--         Clicked="OnEditButtonClicked" -->
+                            <!--         Padding="-20,-5" -->
+                            <!--         Margin="10,0" -->
+                            <!--         HorizontalOptions="End" -->
+                            <!--         VerticalOptions="Center" /> -->
                         </Grid>
                     </ControlTemplate>
                     <ControlTemplate x:Key="EditView">
@@ -124,6 +134,7 @@
                                          Grid.Column="0"
                                          Grid.ColumnSpan="3"
                                          Padding="0"
+                                         Margin="0"
                                          Orientation="Horizontal">
                                 <Frame WidthRequest="64"
                                        HeightRequest="64"

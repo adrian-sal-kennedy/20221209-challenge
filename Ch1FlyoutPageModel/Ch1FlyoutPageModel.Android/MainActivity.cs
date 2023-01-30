@@ -54,7 +54,7 @@ namespace Ch1FlyoutPageModel.Droid
             }
 
             RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
-            RegisterReceiver(bluetoothReceiver, new IntentFilter(PackageName));
+            RegisterReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ActionStateChanged));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,

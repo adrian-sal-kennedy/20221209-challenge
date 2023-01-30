@@ -15,23 +15,26 @@ namespace Ch1FlyoutPageModel.ViewModels
     using System.Threading.Tasks;
     using System.Windows.Input;
     using DependencyServices;
+    using Models;
 
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public bool HasAllPermissions => MissingPermissions is { Count: 0 };
+        public bool HasAllPermissions => Permissions is { Count: 0 };
         public bool IsBluetoothOn => DependencyService.Get<IDevices>().BtIsOn;
+
         public bool IsGpsOn => DependencyService.Get<IDevices>().GpsIsOn;
+
         // Yes, yes, I'm aware that the below doesn't actually guarantee Internet access.
         // We could always ping google.com or something like it if we absolutely needed to be sure.
         public bool IsInternetAvailable => Connectivity.NetworkAccess == NetworkAccess.Internet;
-        protected static ObservableCollection<IChPermission> missingPermissions = new();
+        protected static ObservableCollection<IChPermission> permissions = new();
 
-        public ObservableCollection<IChPermission> MissingPermissions
+        public ObservableCollection<IChPermission> Permissions
         {
-            get => missingPermissions;
+            get => permissions;
             set
             {
-                SetProperty(ref missingPermissions, value);
+                SetProperty(ref permissions, value);
                 OnPropertyChanged(nameof(HasAllPermissions));
             }
         }
@@ -88,9 +91,13 @@ namespace Ch1FlyoutPageModel.ViewModels
                 bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
                 if (res)
                 {
-                    missingPermissions.Remove(perm);
-                    OnPropertyChanged(nameof(MissingPermissions));
+                    var grantedPerm = permissions.FirstOrDefault(p => p.PermissionType == perm?.PermissionType);
+                    if (grantedPerm is { })
+                    {
+                        grantedPerm.IsGranted = res;
+                    }
                 }
+                OnPropertyChanged(nameof(Permissions));
             });
         }
 

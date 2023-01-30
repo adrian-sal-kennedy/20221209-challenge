@@ -3,11 +3,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
-             x:Class="Ch1FlyoutPageModel.Views.LandingPage"
-             BackgroundColor="#ff80b0ff">
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Class="Ch1FlyoutPageModel.Views.LandingPage">
     <Shell.TitleView>
-        <Label Text="FlyoutPageModel App"
-               TextColor="White"
+        <Label Text="{x:Static resources:AppResources.TitleAppTitle}"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"
@@ -29,17 +28,17 @@
                                 <FlexLayout Wrap="Wrap"
                                             AlignItems="Start">
                                     <Label Text="Name:" Margin="4,2" />
-                                    <Label StyleClass="Bold" 
-                                           Text="{Binding PermissionName}" 
+                                    <Label StyleClass="Bold"
+                                           Text="{Binding PermissionName}"
                                            Margin="4,2"/>
                                     <Label Text="Description:"
                                            Margin="4,2"/>
-                                    <Label StyleClass="Bold" 
+                                    <Label StyleClass="Bold"
                                            Text="{Binding PermissionDescription}"
                                            Margin="4,2" />
                                     <Label Text="Rationale:"
                                            Margin="4,2" />
-                                    <Label StyleClass="Bold" 
+                                    <Label StyleClass="Bold"
                                            MaxLines="2"
                                            Text="{Binding PermissionRationale}" Margin="4,2" />
                                 </FlexLayout>

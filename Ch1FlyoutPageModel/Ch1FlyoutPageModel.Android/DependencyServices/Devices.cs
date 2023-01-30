@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using Android.Bluetooth;
 using Android.Content;
 using Ch1FlyoutPageModel.DependencyServices;
-using Ch1FlyoutPageModel.Interfaces;
 using Ch1FlyoutPageModel.ViewModels;
 using System.Linq;
 using Ch1FlyoutPageModel.Droid.DependencyServices;
@@ -15,6 +13,7 @@ using Application = Android.App.Application;
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
+    using Android.App;
     using Android.Locations;
 
     public class Devices : IDevices
@@ -33,10 +32,11 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         private BluetoothAdapter? BtAdapter => bluetoothManager?.Adapter;
 
         // [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged }, Categories = new[] { Intent.CategoryDefault })]
-        [BroadcastReceiver(Enabled = true, Exported = true)]
+        [BroadcastReceiver(Enabled = true, Exported = false)]
+        [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged })]
         public class BluetoothReceiver : BroadcastReceiver
         {
-            public override void OnReceive(Context context, Intent intent)
+            public override void OnReceive(Context? context, Intent? intent)
             {
                 if (intent is not { Extras: { } }) { return; }
 

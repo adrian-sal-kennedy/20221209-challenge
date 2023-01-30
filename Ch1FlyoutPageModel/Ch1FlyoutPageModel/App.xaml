@@ -7,9 +7,11 @@
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
-        <ResourceDictionary Source="Views/Styles/Colours.xaml" />
+        <ResourceDictionary Source="Views/Styles/Colours.xaml">
+        </ResourceDictionary>
         <ResourceDictionary>
             <converter:PermissionBoolToColourConverter x:Key="PermissionBoolToColourConverter" />
+            <converter:InvertBoolConverter x:Key="InvertBoolConverter" />
             <converter:StringToUriConverter x:Key="StringToUriConverter" />
             <converter:UriStringToStreamConverter x:Key="UriStringToStreamConverter" />
             <Color x:Key="Primary">#2196F3</Color>

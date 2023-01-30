@@ -228,4 +228,13 @@
   <data name="Save" xml:space="preserve">
       <value>Save</value>
   </data>
+  <data name="TitleAppTitle" xml:space="preserve">
+      <value>FlyoutPageModel App</value>
+  </data>
+  <data name="TitleBluetoothPage" xml:space="preserve">
+      <value>Bluetooth</value>
+  </data>
+  <data name="ToastPermissionGranted" xml:space="preserve">
+      <value>Permission granted!</value>
+  </data>
 </root>

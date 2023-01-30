@@ -9,7 +9,6 @@ namespace Ch1FlyoutPageModel
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AppShell : Xamarin.Forms.Shell
     {
-        // public ContentView UserProfile;
         public AppShell()
         {
             InitializeComponent();
@@ -17,43 +16,34 @@ namespace Ch1FlyoutPageModel
             // Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
-        public static async Task GoToOnMainThreadAsync(string? path)
+        public static async Task GoToOnMainThreadAsync(string? route)
         {
-            if (path is not { }) { return; }
+            if (route is not { }) { return; }
 
-            await Device.InvokeOnMainThreadAsync(() => Current.GoToAsync(path));
-        }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await GoToAsync("//LoginPage");
+            await Device.InvokeOnMainThreadAsync(() => Current.GoToAsync(route));
         }
 
         /// <summary>
-        /// the below 2 methods are just... antipatterns. But this is such
-        /// a simple feature that we're doing it this way on this occasion.
+        /// the methods OnEditButtonClicked and OnSaveButtonClicked are just... antipatterns.
+        /// But this is such a simple feature that we're doing it this way on this occasion.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnEditButtonClicked(object sender, EventArgs e)
         {
-            if (sender is Element { Parent: { Parent: ContentView { } gp } })
+            if (sender is Element { Parent: { Parent: ContentView { } gp } } &&
+                gp.Resources.TryGetValue("EditView", out object t))
             {
-                if (gp.Resources.TryGetValue("EditView", out object t))
-                {
-                    gp.ControlTemplate = (ControlTemplate)t;
-                }
+                gp.ControlTemplate = (ControlTemplate)t;
             }
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            if (sender is Element { Parent: { Parent: ContentView { } gp } })
+            if (sender is Element { Parent: { Parent: ContentView { } gp } } &&
+                gp.Resources.TryGetValue("DefaultUserProfileView", out object t))
             {
-                if (gp.Resources.TryGetValue("DefaultUserProfileView", out object t))
-                {
-                    gp.ControlTemplate = (ControlTemplate)t;
-                }
+                gp.ControlTemplate = (ControlTemplate)t;
             }
         }
     }

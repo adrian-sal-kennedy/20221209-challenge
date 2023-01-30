@@ -9,7 +9,7 @@ namespace Ch1FlyoutPageModel.DependencyServices
 {
     public interface IPermissionAsker
     {
-        Task<bool> AskPermission(IChPermission perm);
+        Task<bool> AskPermission(IChPermission? perm);
         IEnumerable<IChPermission> CheckAllPermissions();
     }
 }

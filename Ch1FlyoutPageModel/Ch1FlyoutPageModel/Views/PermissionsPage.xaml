@@ -5,8 +5,7 @@
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
              x:Name="permissionsPage"
-             x:Class="Ch1FlyoutPageModel.Views.PermissionsPage"
-             BackgroundColor="#ff80b0ff">
+             x:Class="Ch1FlyoutPageModel.Views.PermissionsPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.Permissions}"
                TextColor="White"
@@ -24,7 +23,7 @@
             <CollectionView HorizontalOptions="FillAndExpand"
                             SelectedItem="{Binding SelectedPermission, Mode=TwoWay}"
                             SelectionMode="Single"
-                            ItemsSource="{Binding MissingPermissions}">
+                            ItemsSource="{Binding Permissions}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -61,6 +60,7 @@
                                    TextColor="Brown"
                                    Opacity="0.5"
                                    Margin="20,6"
+                                   IsVisible="{Binding IsGranted, Converter={StaticResource InvertBoolConverter}}"
                                    HorizontalOptions="End"
                                    VerticalOptions="End" />
                         </Grid>

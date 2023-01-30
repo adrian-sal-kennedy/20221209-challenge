@@ -7,7 +7,6 @@ namespace Ch1FlyoutPageModel.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PermissionsPage
     {
-        // private static bool hasRunOnce;
         public PermissionsPage()
         {
             InitializeComponent();
@@ -15,20 +14,10 @@ namespace Ch1FlyoutPageModel.Views
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            if(BindingContext is PermissionsViewModel { MissingPermissions: { Count: > 0 } } vm)
+            if(BindingContext is PermissionsViewModel { Permissions: { Count: > 0 } } vm)
             {
                 Task.Run(vm.AskPermissions);
-                // hasRunOnce = true;
             }
         }
-        // protected override void OnAppearing()
-        // {
-        //     base.OnAppearing();
-        //     if (!hasRunOnce && BindingContext is PermissionsViewModel { MissingPermissions: { Count: > 0 } } vm)
-        //     {
-        //         // Task.Run(vm.AskPermissions);
-        //         hasRunOnce = true;
-        //     }
-        // }
     }
 }

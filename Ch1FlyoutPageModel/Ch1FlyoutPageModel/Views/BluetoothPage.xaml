@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
+             xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             x:Name="bluetoothPage"
+             x:Class="Ch1FlyoutPageModel.Views.BluetoothPage">
+    <Shell.TitleView>
+        <Label Text="{x:Static resources:AppResources.TitleBluetoothPage}"
+               FontSize="Title"
+               FontAttributes="Bold"
+               VerticalTextAlignment="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:BluetoothViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Text="{x:Static resources:AppResources.BluetoothStatus}"
+                   StyleClass="h3,bold" />
+            <CheckBox Grid.Row="1"
+                      Grid.Column="1" HorizontalOptions="End"
+                      IsEnabled="False"
+                      IsChecked="{Binding IsBluetoothOn, Mode=OneWay}" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

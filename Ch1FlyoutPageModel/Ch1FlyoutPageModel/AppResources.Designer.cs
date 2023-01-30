@@ -266,5 +266,23 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("Save", resourceCulture);
             }
         }
+        
+        public static string TitleAppTitle {
+            get {
+                return ResourceManager.GetString("TitleAppTitle", resourceCulture);
+            }
+        }
+        
+        public static string TitleBluetoothPage {
+            get {
+                return ResourceManager.GetString("TitleBluetoothPage", resourceCulture);
+            }
+        }
+        
+        public static string ToastPermissionGranted {
+            get {
+                return ResourceManager.GetString("ToastPermissionGranted", resourceCulture);
+            }
+        }
     }
 }

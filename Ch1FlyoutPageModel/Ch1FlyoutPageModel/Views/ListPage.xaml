@@ -9,7 +9,6 @@
              x:Class="Ch1FlyoutPageModel.Views.ListPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleListPage}"
-               TextColor="White"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"
