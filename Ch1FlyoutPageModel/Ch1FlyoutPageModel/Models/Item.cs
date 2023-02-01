@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ch1FlyoutPageModel.Models
+﻿namespace Ch1FlyoutPageModel.Models
 {
     public class Item
     {

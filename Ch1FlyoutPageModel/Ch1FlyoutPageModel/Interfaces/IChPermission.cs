@@ -1,6 +1,4 @@
 ﻿using Ch1FlyoutPageModel.Models;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.Interfaces
 {

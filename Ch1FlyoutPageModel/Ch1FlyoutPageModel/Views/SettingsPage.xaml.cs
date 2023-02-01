@@ -2,11 +2,7 @@
 
 namespace Ch1FlyoutPageModel.Views
 {
-    using System.Threading.Tasks;
-    using DependencyServices;
-    using Models;
     using ViewModels;
-    using Xamarin.Forms;
     using ar = AppResources;
 
     [XamlCompilation(XamlCompilationOptions.Compile)]

@@ -12,51 +12,64 @@ namespace Ch1FlyoutPageModel.ViewModels
 
     public class PermissionsViewModel : BaseViewModel
     {
-        private ChPermission? selectedPermission;
+        private IChPermission? selectedPermission;
 
-        public ChPermission? SelectedPermission
+        public IChPermission? SelectedPermission
         {
             get => selectedPermission;
             set => SetProperty(ref selectedPermission, value);
         }
 
-        public ICommand AskPermissionCommand { get; private set; }
+        public ICommand TogglePermissionCommand { get; private set; }
 
         public PermissionsViewModel()
         {
-            AskPermissionCommand = new Command((perm) =>
+            TogglePermissionCommand = new Command((perm) =>
             {
                 if (perm is IChPermission p)
                 {
-                    AskPermission(p);
+                    TogglePermission(p);
                 }
             });
         }
 
         public static void SetPermissions(IEnumerable<IChPermission> perms)
         {
-            permissions = new(perms.Select(p => new ChPermission(p)));
+            permissions = new(perms);
         }
 
-        public async void AskPermissions()
+        public async Task AskPermissions()
+        {
+            // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
+            // Given we need to wait for user interaction it's not performance constrained.
+            foreach (var perm in permissions)
+            {
+                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                if (res)
+                {
+                    // DependencyService.Get<IToastMessage>().Show(AppResources.ToastPermissionGranted);
+                }
+
+                OnPropertyChanged(nameof(Permissions));
+            }
+        }
+
+        protected void TogglePermission(IChPermission? perm)
         {
             Task.Run(async () =>
             {
-                // reqs say "sequentially", otherwise I'd make a list of tasks and a WhenAll.
-                // Given we need to wait for user interaction it's not performance constrained.
-                int cnt = permissions.Count;
-                foreach (var perm in permissions)
+                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                if (res)
                 {
-                    bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                    if (res)
+                    var grantedPerm = permissions.FirstOrDefault(p => p.PermissionType == perm?.PermissionType);
+                    if (grantedPerm is { })
                     {
-                        // DependencyService.Get<IToastMessage>().Show(AppResources.ToastPermissionGranted);
+                        grantedPerm.IsGranted = res;
                     }
-
-                    OnPropertyChanged(nameof(Permissions));
                 }
+
+                OnPropertyChanged(nameof(Permissions));
             }).Wait();
-            await AppShell.GoToOnMainThreadAsync("//List");
         }
     }
 }

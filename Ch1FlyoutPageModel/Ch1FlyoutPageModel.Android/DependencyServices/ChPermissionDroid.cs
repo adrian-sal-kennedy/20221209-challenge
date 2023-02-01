@@ -12,7 +12,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
     using System.Linq;
     using AndroidX.Core.App;
     using Xamarin.Essentials;
-    using Xamarin.Forms;
 
     public class ChPermissionDroid : IChPermission
     {
@@ -29,10 +28,24 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         {
             get
             {
-                isGranted = ContextCompat.CheckSelfPermission(PermissionAsker.Context, PermissionName) > 0;
+                var res = CheckDroidPermissions();
+                isGranted = res == 0;
                 return isGranted;
             }
             set { }
+        }
+
+        private int CheckDroidPermissions()
+        {
+            int agg = 0;
+            foreach (object obj in NativePermissions)
+            {
+                if (obj is string p)
+                {
+                    agg += (int)ContextCompat.CheckSelfPermission(PermissionAsker.Context, p);
+                }
+            }
+            return agg;
         }
 
         public bool IsEssentialForAppToRunProperly { get; set; }

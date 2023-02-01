@@ -32,7 +32,7 @@
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1" HorizontalOptions="End"
                                   IsEnabled="False"
-                                  IsChecked="{Binding HasAllPermissions, Mode=OneWay}" />
+                                  IsChecked="{Binding HasAllNecessaryPermissions, Mode=OneWay}" />
                         <Label Grid.Row="1"
                                Grid.Column="0"
                                Text="{x:Static resources:AppResources.BluetoothStatus}"

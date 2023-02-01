@@ -7,7 +7,6 @@ using Ch1FlyoutPageModel.Droid.DependencyServices;
 using Xamarin.Forms;
 using AndroidX.Core.Content;
 using Ch1FlyoutPageModel.Models;
-using Application = Android.App.Application;
 
 [assembly: Dependency(typeof(Devices))]
 

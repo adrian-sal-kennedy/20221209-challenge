@@ -3,23 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Ch1FlyoutPageModel.ViewModels
 {
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Threading.Tasks;
-    using System.Windows.Input;
     using DependencyServices;
-    using Models;
 
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public bool HasAllPermissions => Permissions is { Count: 0 };
+        public bool HasAllNecessaryPermissions => Permissions.Where(p=>p.IsEssentialForAppToRunProperly).All(p=>p.IsGranted);
         public bool IsBluetoothOn => DependencyService.Get<IDevices>().BtIsOn;
 
         public bool IsGpsOn => DependencyService.Get<IDevices>().GpsIsOn;
@@ -35,7 +32,7 @@ namespace Ch1FlyoutPageModel.ViewModels
             set
             {
                 SetProperty(ref permissions, value);
-                OnPropertyChanged(nameof(HasAllPermissions));
+                OnPropertyChanged(nameof(HasAllNecessaryPermissions));
             }
         }
 
@@ -55,13 +52,9 @@ namespace Ch1FlyoutPageModel.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        public BaseViewModel()
-        {
-        }
-
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
+            Action? onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;
@@ -83,23 +76,6 @@ namespace Ch1FlyoutPageModel.ViewModels
         }
 
         #endregion
-
-        public async void AskPermission(IChPermission? perm)
-        {
-            await Task.Run(async () =>
-            {
-                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                if (res)
-                {
-                    var grantedPerm = permissions.FirstOrDefault(p => p.PermissionType == perm?.PermissionType);
-                    if (grantedPerm is { })
-                    {
-                        grantedPerm.IsGranted = res;
-                    }
-                }
-                OnPropertyChanged(nameof(Permissions));
-            });
-        }
 
         public static HttpClient CreateClient(string? baseUrl = null)
         {

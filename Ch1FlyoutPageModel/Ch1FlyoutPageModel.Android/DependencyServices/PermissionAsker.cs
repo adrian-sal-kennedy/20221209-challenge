@@ -1,5 +1,4 @@
-﻿using Android;
-using Android.Content;
+﻿using Android.Content;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using Ch1FlyoutPageModel.DependencyServices;
@@ -12,7 +11,6 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using ar = Ch1FlyoutPageModel.AppResources;
-using Application = Android.App.Application;
 
 [assembly: Dependency(typeof(PermissionAsker))]
 
@@ -30,10 +28,10 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         // [IntentFilter(Android.Content.ContextWrapper.PackageName)]
         public class PermissionReceiver : BroadcastReceiver
         {
-            public override void OnReceive(Context context, Intent intent)
+            public override void OnReceive(Context? context, Intent? intent)
             {
                 // permissionReceivedThankYou.TrySetResult(ContextCompat.CheckSelfPermission(context, perm.ToString()) == 0);
-                PermissionReceivedThankYou.TrySetResult(intent.DataString != null);
+                PermissionReceivedThankYou.TrySetResult(intent?.DataString != null);
                 PermissionReceivedThankYou = new TaskCompletionSource<bool>();
             }
         }

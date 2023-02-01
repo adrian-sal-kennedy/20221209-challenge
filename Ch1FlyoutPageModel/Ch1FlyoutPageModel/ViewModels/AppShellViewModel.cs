@@ -1,11 +1,8 @@
 namespace Ch1FlyoutPageModel.ViewModels
 {
-    using System.Threading.Tasks;
-    using System.Windows.Input;
     using Models;
     using Newtonsoft.Json;
     using Xamarin.Essentials;
-    using Xamarin.Forms;
 
     public class AppShellViewModel : BaseViewModel
     {
