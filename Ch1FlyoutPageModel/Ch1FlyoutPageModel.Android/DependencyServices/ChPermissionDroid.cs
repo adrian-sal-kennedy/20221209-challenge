@@ -32,7 +32,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
                 isGranted = res == 0;
                 return isGranted;
             }
-            set { }
         }
 
         private int CheckDroidPermissions()

@@ -21,15 +21,15 @@
     <ContentPage.Content>
         <StackLayout Padding="0"
                      Margin="10"
-                     Spacing="0">
-            <CollectionView HorizontalOptions="FillAndExpand"
-                            SelectedItem="{Binding SelectedPermission, Mode=TwoWay}"
-                            SelectionMode="Single"
-                            ItemsSource="{Binding Permissions}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="{Binding IsGranted, Converter={StaticResource PermissionBoolToColourConverter}}"
-                               CornerRadius="10">
+                     Spacing="0"
+                     BindableLayout.ItemsSource="{Binding Permissions}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <Frame
+                            Margin="0,0.5"
+                            BorderColor="{Binding IsGranted, Converter={StaticResource PermissionBoolToColourConverter}}"
+                            CornerRadius="10">
                             <Grid ColumnDefinitions="*,auto">
                                 <FlexLayout Grid.Column="0"
                                             Wrap="Wrap"
@@ -56,18 +56,11 @@
                                                                           CommandParameter="{Binding .}" />
                                     </Switch.Behaviors>
                                 </Switch>
-                                <!-- <Label Text="{x:Static resources:AppResources.Denied}" -->
-                                <!--        TextColor="Brown" -->
-                                <!--        Opacity="0.5" -->
-                                <!--        Margin="20,6" -->
-                                <!--        IsVisible="{Binding IsGranted, Converter={StaticResource InvertBoolConverter}}" -->
-                                <!--        HorizontalOptions="End" -->
-                                <!--        VerticalOptions="End" /> -->
                             </Grid>
                         </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    </ContentView>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

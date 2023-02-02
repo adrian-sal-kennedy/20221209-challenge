@@ -9,6 +9,7 @@ using Xamarin.Forms;
 namespace Ch1FlyoutPageModel.ViewModels
 {
     using System.Linq;
+    using Behaviors;
 
     public class PermissionsViewModel : BaseViewModel
     {
@@ -24,11 +25,14 @@ namespace Ch1FlyoutPageModel.ViewModels
 
         public PermissionsViewModel()
         {
-            TogglePermissionCommand = new Command((perm) =>
+            TogglePermissionCommand = new Command(perm =>
             {
-                if (perm is IChPermission p)
+                if (perm is not IChPermission p) { return; }
+
+                TogglePermission(p);
+                if (EventToCommandBehavior.EventSender is Switch { } sw)
                 {
-                    TogglePermission(p);
+                    Device.BeginInvokeOnMainThread(() => sw.IsToggled = p.IsGranted);
                 }
             });
         }
@@ -56,20 +60,23 @@ namespace Ch1FlyoutPageModel.ViewModels
 
         protected void TogglePermission(IChPermission? perm)
         {
-            Task.Run(async () =>
+            if (perm is { IsGranted: false })
             {
-                bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
-                if (res)
+                Task.Run(async () =>
                 {
-                    var grantedPerm = permissions.FirstOrDefault(p => p.PermissionType == perm?.PermissionType);
-                    if (grantedPerm is { })
+                    bool res = await DependencyService.Get<IPermissionAsker>().AskPermission(perm);
+                    if (res)
                     {
-                        grantedPerm.IsGranted = res;
+                        var grantedPerm = permissions.FirstOrDefault(p => p.PermissionType == perm?.PermissionType);
+                        // if (grantedPerm is { })
+                        // {
+                        //     grantedPerm.IsGranted = res;
+                        // }
                     }
-                }
+                }).Wait();
+            }
 
-                OnPropertyChanged(nameof(Permissions));
-            }).Wait();
+            OnPropertyChanged(nameof(Permissions));
         }
     }
 }

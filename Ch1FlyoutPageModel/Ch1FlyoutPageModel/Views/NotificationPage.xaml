@@ -20,7 +20,8 @@
         <RefreshView x:Name="Refresher"
                      Command="{Binding SetAlarmCommand}"
                      CommandParameter="{x:Reference Refresher }">
-            <ScrollView>
+            <ScrollView HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
                 <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
                     <Grid>
                         <Button Grid.Row="0"

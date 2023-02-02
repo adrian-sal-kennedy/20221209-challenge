@@ -44,11 +44,7 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             var permArr = perm.ToStringArray();
             // var prec = new PermissionReceiver();
             // Activity.RegisterReceiver(prec, new IntentFilter(Activity.PackageName));
-            List<Android.Content.PM.Permission> permcheck = new();
-            foreach (var prmStr in permArr)
-            {
-                permcheck.Add(ContextCompat.CheckSelfPermission(Context, prmStr));
-            }
+            var permcheck = permArr.Select(prmStr => ContextCompat.CheckSelfPermission(Context, prmStr)).ToList();
 
             if (permcheck.Any(p => p != Android.Content.PM.Permission.Granted))
             {
@@ -97,12 +93,9 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
 
             permcheck.Clear();
-            foreach (var prmStr in permArr)
-            {
-                permcheck.Add(ContextCompat.CheckSelfPermission(Context, prmStr));
-            }
-
-            return permcheck.All(p => p == Android.Content.PM.Permission.Granted);
+            return permArr
+                .Select(prmStr => ContextCompat.CheckSelfPermission(Context, prmStr))
+                .All(p => p == Android.Content.PM.Permission.Granted);
         }
 
         public IEnumerable<IChPermission> CheckAllPermissions()

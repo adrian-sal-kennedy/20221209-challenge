@@ -103,8 +103,17 @@ namespace Ch1FlyoutPageModel.Behaviors
 
         private bool onEventJustRan;
 
+        /// <summary>
+        /// Just a little breaking of MVVM here - store the sender as a static that
+        /// can be accessed from anywhere. This wouldn't be necessary except for the
+        /// fact the switch really wants to toggle even if it's bound to a get-only
+        /// that is returning it's opposite.
+        /// </summary>
+        public static object? EventSender = null;
+
         private void OnEvent(object sender, object eventArgs)
         {
+            EventSender = null;
             if (onEventJustRan)
             {
                 onEventJustRan = false;
@@ -134,6 +143,7 @@ namespace Ch1FlyoutPageModel.Behaviors
 
             if (Command.CanExecute(resolvedParameter))
             {
+                EventSender = sender;
                 Command.Execute(resolvedParameter);
             }
         }

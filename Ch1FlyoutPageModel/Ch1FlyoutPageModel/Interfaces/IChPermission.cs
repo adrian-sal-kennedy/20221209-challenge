@@ -11,7 +11,7 @@ namespace Ch1FlyoutPageModel.Interfaces
         string PermissionName { get; }
         string? PermissionDescription { get; set; }
         string? PermissionRationale { get; set; }
-        bool IsGranted { get; set; }
+        bool IsGranted { get; }
         bool IsEssentialForAppToRunProperly { get; }
     }
 }

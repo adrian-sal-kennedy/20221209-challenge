@@ -9,6 +9,7 @@ namespace Ch1FlyoutPageModel.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PermissionsPage
     {
+        private static bool HaveWeBeenToThisPageBefore;
         private PermissionsViewModel? bc = null;
 
         public PermissionsPage()
@@ -24,10 +25,14 @@ namespace Ch1FlyoutPageModel.Views
                 bc = vm;
                 Task.Run(async () =>
                 {
-                    if (!vm.HasAllNecessaryPermissions)
+                    if (!HaveWeBeenToThisPageBefore)
                     {
+                        HaveWeBeenToThisPageBefore = true;
                         await vm.AskPermissions();
-                        await AppShell.GoToOnMainThreadAsync("//List");
+                        if (vm.HasAllNecessaryPermissions)
+                        {
+                            await AppShell.GoToOnMainThreadAsync("//List");
+                        }
                     }
                 });
             }
