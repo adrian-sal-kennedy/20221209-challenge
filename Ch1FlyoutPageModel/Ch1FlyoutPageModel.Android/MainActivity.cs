@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Ch1FlyoutPageModel.Droid
 {
+    using Android.Provider;
+    using AndroidX.Core.App;
     using Ch1FlyoutPageModel.DependencyServices;
     using Xamarin.Forms;
 
@@ -21,6 +23,7 @@ namespace Ch1FlyoutPageModel.Droid
         private Bundle? savedInstanceState;
         private PermissionAsker.PermissionReceiver? permissionReceiver;
         private Devices.BluetoothReceiver? bluetoothReceiver;
+        private Devices.AlarmReceiver? alarmReceiver;
         public static int ApiLevel => (int)Build.VERSION.SdkInt;
 
         protected override void OnCreate(Bundle savedInstanceStateArg)
@@ -35,6 +38,7 @@ namespace Ch1FlyoutPageModel.Droid
             LoadApplication(new App());
             permissionReceiver = new PermissionAsker.PermissionReceiver();
             bluetoothReceiver = new Devices.BluetoothReceiver();
+            alarmReceiver = new Devices.AlarmReceiver();
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -55,6 +59,7 @@ namespace Ch1FlyoutPageModel.Droid
 
             RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
             RegisterReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ActionStateChanged));
+            RegisterReceiver(alarmReceiver, new IntentFilter(AlarmClock.ActionSetAlarm));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
@@ -72,6 +77,7 @@ namespace Ch1FlyoutPageModel.Droid
             base.OnPause();
             UnregisterReceiver(permissionReceiver);
             UnregisterReceiver(bluetoothReceiver);
+            UnregisterReceiver(alarmReceiver);
         }
     }
 }

@@ -284,5 +284,11 @@ namespace Ch1FlyoutPageModel {
                 return ResourceManager.GetString("ToastPermissionGranted", resourceCulture);
             }
         }
+        
+        public static string CancelAlarm {
+            get {
+                return ResourceManager.GetString("CancelAlarm", resourceCulture);
+            }
+        }
     }
 }

@@ -237,4 +237,7 @@
   <data name="ToastPermissionGranted" xml:space="preserve">
       <value>Permission granted!</value>
   </data>
+  <data name="CancelAlarm" xml:space="preserve">
+      <value>Cancel Alarm</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
@@ -17,22 +18,21 @@
         <vm:NotificationViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <RefreshView x:Name="Refresher"
-                     Command="{Binding SetAlarmCommand}"
-                     CommandParameter="{x:Reference Refresher }">
-            <ScrollView HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand">
-                <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
-                    <Grid>
-                        <Button Grid.Row="0"
-                               Grid.Column="0"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Start"
-                               Text="{x:Static resources:AppResources.SetAlarm}"
-                               StyleClass="h3,bold" />
-                    </Grid>
-                </ContentView>
-            </ScrollView>
-        </RefreshView>
+        <ScrollView HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+            <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
+                <Grid>
+                    <Button Grid.Row="0"
+                            Grid.Column="0"
+                            x:Name="Button"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            Command="{Binding SetAlarmCommand}"
+                            CommandParameter="{x:Reference Button}"
+                            Text="{x:Static resources:AppResources.SetAlarm}"
+                            StyleClass="h3,bold" />
+                </Grid>
+            </ContentView>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

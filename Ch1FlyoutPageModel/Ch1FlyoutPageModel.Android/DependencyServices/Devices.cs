@@ -7,17 +7,73 @@ using Ch1FlyoutPageModel.Droid.DependencyServices;
 using Xamarin.Forms;
 using AndroidX.Core.Content;
 using Ch1FlyoutPageModel.Models;
+using ar = Ch1FlyoutPageModel.AppResources;
 
 [assembly: Dependency(typeof(Devices))]
 
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
+    using System;
     using Android.App;
     using Android.Locations;
+    using Android.OS;
+    using Android.Provider;
 
     public class Devices : IDevices
     {
         private static Context Context => Application.Context;
+
+        private static AlarmManager? alarmManager =
+            Context.GetSystemService(Context.AlarmService) as AlarmManager;
+
+        public bool BtIsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
+
+        public bool GpsIsOn => locationManager is { IsLocationEnabled: true };
+
+        public bool AlarmIsSet
+        {
+            get
+            {
+                Intent checker = new Intent(Context, typeof(AlarmReceiver));
+                PendingIntent? pe = PendingIntent.GetBroadcast(Context, (int)RequestCodes.Alarm, checker,
+                    PendingIntentFlags.NoCreate);
+                return pe is { };
+            }
+        }
+
+        [BroadcastReceiver(Enabled = true, Exported = false)]
+        [IntentFilter(new[] { AlarmClock.ActionSetAlarm })]
+        public class AlarmReceiver : BroadcastReceiver
+        {
+            public override void OnReceive(Context? context, Intent? intent)
+            {
+                if (intent is not { }) { return; }
+
+                var location = locationManager?.GetLastKnownLocation(LocationManager.GpsProvider)
+                               ?? locationManager?.GetLastKnownLocation(LocationManager.NetworkProvider);
+
+                if (location is { Latitude: { } lat, Longitude: { } lon })
+                {
+                    DependencyService.Get<IToastMessage>().Show(
+                        $"Lat: {lat} Long: {lon}");
+                }
+            }
+        }
+
+        [Activity(Label = "SetAlarmActivity")]
+        public class SetAlarmActivity : Activity
+        {
+            protected override void OnCreate(Bundle savedInstanceState)
+            {
+                base.OnCreate(savedInstanceState);
+
+                var intent = new Intent(this, typeof(AlarmReceiver));
+                var pendingIntent = PendingIntent.GetBroadcast(this, 0, intent, PendingIntentFlags.UpdateCurrent);
+
+                var triggerTime = SystemClock.ElapsedRealtime() + TimeSpan.FromSeconds(10).Ticks;
+                alarmManager?.Set(AlarmType.ElapsedRealtimeWakeup, triggerTime, pendingIntent);
+            }
+        }
 
         private static LocationManager? locationManager =
             Context.GetSystemService(Context.LocationService) as LocationManager;
@@ -45,10 +101,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
         }
 
-        public bool BtIsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
-
-        public bool GpsIsOn => locationManager is { IsLocationEnabled: true };
-
         public bool CheckPermission()
         {
             if (Context is { } context)
@@ -59,6 +111,27 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
 
             return false;
+        }
+
+        public void SetAlarm()
+        {
+            AlarmManager? alarmContext = Context.GetSystemService(Context.AlarmService) as AlarmManager;
+            if (alarmContext is { })
+            {
+                var intent = new Intent(Context, typeof(SetAlarmActivity));
+                intent.SetFlags(ActivityFlags.NewTask);
+                Context.StartActivity(intent);
+                DependencyService.Get<IToastMessage>().Show(ar.SetAlarm);
+            }
+        }
+
+        public void CancelAlarm()
+        {
+            var intent = new Intent(Context, typeof(SetAlarmActivity));
+            PendingIntent? pe = PendingIntent.GetService(Context, (int)RequestCodes.Alarm, intent,
+                PendingIntentFlags.NoCreate);
+
+            alarmManager.Cancel(pe);
         }
     }
 }

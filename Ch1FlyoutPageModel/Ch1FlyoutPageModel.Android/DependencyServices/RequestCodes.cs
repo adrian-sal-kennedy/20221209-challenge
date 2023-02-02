@@ -6,6 +6,7 @@
     /// </summary>
     internal enum RequestCodes : int
     {
+        Alarm = 69,
         Permission = 420,
     }
 }

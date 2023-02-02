@@ -1,24 +1,33 @@
 namespace Ch1FlyoutPageModel.ViewModels
 {
-    using System;
     using System.Windows.Input;
+    using DependencyServices;
     using Xamarin.Forms;
+    using ar = AppResources;
 
     public class NotificationViewModel : BaseViewModel
     {
+        public bool IsAlarmSet => DependencyService.Get<IDevices>().AlarmIsSet;
         public ICommand SetAlarmCommand { get; set; }
+
         public NotificationViewModel()
         {
-            SetAlarmCommand = new Command(async (sender) =>
+            SetAlarmCommand = new Command((sender) =>
             {
-                SetAlarm();
-                if (sender is RefreshView rv) { rv.IsRefreshing = false; }
+                if (sender is Button btn)
+                {
+                    if (IsAlarmSet)
+                    {
+                        btn.Text = ar.CancelAlarm;
+                        DependencyService.Get<IDevices>().CancelAlarm();
+                    }
+                    else
+                    {
+                        btn.Text = ar.SetAlarm;
+                        DependencyService.Get<IDevices>().SetAlarm();
+                    }
+                }
             });
-        }
-
-        private void SetAlarm()
-        {
-            throw new NotImplementedException();
         }
     }
 }
