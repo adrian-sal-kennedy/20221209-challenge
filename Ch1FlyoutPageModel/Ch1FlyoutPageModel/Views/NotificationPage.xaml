@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             Visual="Material"
              x:Name="notificationPage"
              x:Class="Ch1FlyoutPageModel.Views.NotificationPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleNotificationPage}"
-               TextColor="White"
+               StyleClass="titleViewText"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"

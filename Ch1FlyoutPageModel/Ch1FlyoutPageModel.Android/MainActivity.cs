@@ -23,7 +23,7 @@ namespace Ch1FlyoutPageModel.Droid
         private Bundle? savedInstanceState;
         private PermissionAsker.PermissionReceiver? permissionReceiver;
         private Devices.BluetoothReceiver? bluetoothReceiver;
-        private Devices.AlarmReceiver? alarmReceiver;
+        private static Devices.AlarmReceiver? alarmReceiver;
         public static int ApiLevel => (int)Build.VERSION.SdkInt;
 
         protected override void OnCreate(Bundle savedInstanceStateArg)
@@ -57,9 +57,9 @@ namespace Ch1FlyoutPageModel.Droid
                 FormsMaterial.Init(this, savedInstanceState);
             }
 
-            RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
-            RegisterReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ActionStateChanged));
-            RegisterReceiver(alarmReceiver, new IntentFilter(AlarmClock.ActionSetAlarm));
+            var intent = RegisterReceiver(permissionReceiver, new IntentFilter(PackageName));
+            intent = RegisterReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ActionStateChanged));
+            intent = RegisterReceiver(alarmReceiver, new IntentFilter(AlarmClock.ActionSetAlarm));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,

@@ -18,13 +18,13 @@ namespace Ch1FlyoutPageModel.ViewModels
                 {
                     if (IsAlarmSet)
                     {
-                        btn.Text = ar.CancelAlarm;
+                        btn.Text = ar.SetAlarm;
                         DependencyService.Get<IDevices>().CancelAlarm();
                     }
                     else
                     {
-                        btn.Text = ar.SetAlarm;
-                        DependencyService.Get<IDevices>().SetAlarm();
+                        btn.Text = ar.CancelAlarm;
+                        DependencyService.Get<IDevices>().SetAlarm(5 * 1000);
                     }
                 }
             });

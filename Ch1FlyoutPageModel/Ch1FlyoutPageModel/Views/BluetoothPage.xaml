@@ -4,10 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             Visual="Material"
              x:Name="bluetoothPage"
              x:Class="Ch1FlyoutPageModel.Views.BluetoothPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleBluetoothPage}"
+               StyleClass="titleViewText"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"
@@ -17,15 +19,20 @@
         <vm:BluetoothViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid>
-            <Label Grid.Row="1"
-                   Grid.Column="0"
-                   Text="{x:Static resources:AppResources.BluetoothStatus}"
-                   StyleClass="h3,bold" />
-            <CheckBox Grid.Row="1"
-                      Grid.Column="1" HorizontalOptions="End"
-                      IsEnabled="False"
-                      IsChecked="{Binding IsBluetoothOn, Mode=OneWay}" />
-        </Grid>
+        <ContentView Padding="20,30,20,10" HorizontalOptions="Center">
+            <Grid RowDefinitions="32" ColumnDefinitions="auto,32">
+                <!-- Text="All permissions granted" -->
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="{x:Static resources:AppResources.BluetoothStatus}"
+                       StyleClass="h3,bold"
+                       VerticalOptions="Center"/>
+                <CheckBox Grid.Row="0"
+                          Grid.Column="1" HorizontalOptions="End"
+                          IsEnabled="True"
+                          IsChecked="{Binding BluetoothToggle, Mode=TwoWay}"
+                          VerticalOptions="Center" />
+            </Grid>
+        </ContentView>
     </ContentPage.Content>
 </ContentPage>

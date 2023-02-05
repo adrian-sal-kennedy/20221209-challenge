@@ -4,9 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             Visual="Material"
              x:Class="Ch1FlyoutPageModel.Views.LandingPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleAppTitle}"
+               StyleClass="titleViewText"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"
@@ -30,9 +32,9 @@
                                     <Label Text="Name:" Margin="4,2" />
                                     <Label StyleClass="Bold"
                                            Text="{Binding PermissionName}"
-                                           Margin="4,2"/>
+                                           Margin="4,2" />
                                     <Label Text="Description:"
-                                           Margin="4,2"/>
+                                           Margin="4,2" />
                                     <Label StyleClass="Bold"
                                            Text="{Binding PermissionDescription}"
                                            Margin="4,2" />

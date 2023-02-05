@@ -5,10 +5,12 @@
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
              xmlns:ffi="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             Visual="Material"
              x:Name="listPage"
              x:Class="Ch1FlyoutPageModel.Views.ListPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.TitleListPage}"
+               StyleClass="titleViewText"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"

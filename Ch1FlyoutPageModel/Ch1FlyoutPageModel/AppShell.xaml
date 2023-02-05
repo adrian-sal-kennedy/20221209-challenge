@@ -197,4 +197,7 @@
     <FlyoutItem Title="{x:Static resources:AppResources.TitleNotificationPage}" Icon="icon_about.png">
         <ShellContent Route="Notification" ContentTemplate="{DataTemplate local:NotificationPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="{x:Static resources:AppResources.TitleBluetoothPage}" Icon="icon_about.png">
+        <ShellContent Route="Bluetooth" ContentTemplate="{DataTemplate local:BluetoothPage}" />
+    </FlyoutItem>
 </Shell>

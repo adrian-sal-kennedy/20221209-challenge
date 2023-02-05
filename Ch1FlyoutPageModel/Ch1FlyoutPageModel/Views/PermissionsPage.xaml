@@ -5,11 +5,12 @@
              xmlns:vm="clr-namespace:Ch1FlyoutPageModel.ViewModels"
              xmlns:behaviors="clr-namespace:Ch1FlyoutPageModel.Behaviors"
              xmlns:resources="clr-namespace:Ch1FlyoutPageModel"
+             Visual="Material"
              x:Name="permissionsPage"
              x:Class="Ch1FlyoutPageModel.Views.PermissionsPage">
     <Shell.TitleView>
         <Label Text="{x:Static resources:AppResources.Permissions}"
-               TextColor="White"
+               StyleClass="titleViewText"
                FontSize="Title"
                FontAttributes="Bold"
                VerticalTextAlignment="Center"

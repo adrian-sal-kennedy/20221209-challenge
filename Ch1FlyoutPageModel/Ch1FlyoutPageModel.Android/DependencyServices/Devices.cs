@@ -1,12 +1,5 @@
-using Android.Bluetooth;
-using Android.Content;
-using Ch1FlyoutPageModel.DependencyServices;
-using Ch1FlyoutPageModel.ViewModels;
-using System.Linq;
 using Ch1FlyoutPageModel.Droid.DependencyServices;
 using Xamarin.Forms;
-using AndroidX.Core.Content;
-using Ch1FlyoutPageModel.Models;
 using ar = Ch1FlyoutPageModel.AppResources;
 
 [assembly: Dependency(typeof(Devices))]
@@ -14,35 +7,34 @@ using ar = Ch1FlyoutPageModel.AppResources;
 namespace Ch1FlyoutPageModel.Droid.DependencyServices
 {
     using System;
+    using System.Linq;
     using Android.App;
+    using Android.Bluetooth;
+    using Android.Content;
     using Android.Locations;
-    using Android.OS;
-    using Android.Provider;
+    using AndroidX.Core.Content;
+    using Ch1FlyoutPageModel.DependencyServices;
+    using Models;
+    using ViewModels;
+    using Xamarin.Essentials;
 
     public class Devices : IDevices
     {
-        private static Context Context => Application.Context;
+        private static Activity activity => Platform.CurrentActivity;
+        private static Context Context => activity.Application!.ApplicationContext!;
 
-        private static AlarmManager? alarmManager =
-            Context.GetSystemService(Context.AlarmService) as AlarmManager;
-
+        private static AlarmManager? alarmManager;
         public bool BtIsOn => BtAdapter is { State: { } state } && (int)state is not 10 or 11;
 
         public bool GpsIsOn => locationManager is { IsLocationEnabled: true };
 
         public bool AlarmIsSet
         {
-            get
-            {
-                Intent checker = new Intent(Context, typeof(AlarmReceiver));
-                PendingIntent? pe = PendingIntent.GetBroadcast(Context, (int)RequestCodes.Alarm, checker,
-                    PendingIntentFlags.NoCreate);
-                return pe is { };
-            }
+            get => alarmManager is { };
         }
 
-        [BroadcastReceiver(Enabled = true, Exported = false)]
-        [IntentFilter(new[] { AlarmClock.ActionSetAlarm })]
+        [IntentFilter(new[] { "SetAlarmActivity" })]
+        [BroadcastReceiver(Enabled = true, Exported = true)]
         public class AlarmReceiver : BroadcastReceiver
         {
             public override void OnReceive(Context? context, Intent? intent)
@@ -60,21 +52,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             }
         }
 
-        [Activity(Label = "SetAlarmActivity")]
-        public class SetAlarmActivity : Activity
-        {
-            protected override void OnCreate(Bundle savedInstanceState)
-            {
-                base.OnCreate(savedInstanceState);
-
-                var intent = new Intent(this, typeof(AlarmReceiver));
-                var pendingIntent = PendingIntent.GetBroadcast(this, 0, intent, PendingIntentFlags.UpdateCurrent);
-
-                var triggerTime = SystemClock.ElapsedRealtime() + TimeSpan.FromSeconds(10).Ticks;
-                alarmManager?.Set(AlarmType.ElapsedRealtimeWakeup, triggerTime, pendingIntent);
-            }
-        }
-
         private static LocationManager? locationManager =
             Context.GetSystemService(Context.LocationService) as LocationManager;
 
@@ -86,7 +63,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
         // private LocationProvider? LocationProvider => locationManager?.GetProvider(bestProvider ?? "");
         private BluetoothAdapter? BtAdapter => bluetoothManager?.Adapter;
 
-        // [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged }, Categories = new[] { Intent.CategoryDefault })]
         [BroadcastReceiver(Enabled = true, Exported = false)]
         [IntentFilter(new[] { BluetoothAdapter.ActionStateChanged })]
         public class BluetoothReceiver : BroadcastReceiver
@@ -95,8 +71,6 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             {
                 if (intent is not { Extras: { } }) { return; }
 
-                State state = (State)intent.GetIntExtra(BluetoothAdapter.ExtraState, -1);
-                // BaseViewModel.SetIsBluetoothOn((int)state is not 10 or 11); // "Off" or "Turning On"
                 SettingsViewModel.CheckBluetoothStatusStatic();
             }
         }
@@ -113,25 +87,33 @@ namespace Ch1FlyoutPageModel.Droid.DependencyServices
             return false;
         }
 
-        public void SetAlarm()
+        public void SetAlarm(long repeatEveryMillis)
         {
-            AlarmManager? alarmContext = Context.GetSystemService(Context.AlarmService) as AlarmManager;
-            if (alarmContext is { })
+            var intent = new Intent(Context, typeof(AlarmReceiver))
+                .SetFlags(ActivityFlags.NewTask);
+
+            PendingIntent? pe = PendingIntent.GetBroadcast(Context, (int)RequestCodes.Alarm, intent,
+                PendingIntentFlags.Immutable);
+            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            alarmManager = (AlarmManager?)Context.GetSystemService(Context.AlarmService);
+            if (pe is { } && alarmManager is { })
             {
-                var intent = new Intent(Context, typeof(SetAlarmActivity));
-                intent.SetFlags(ActivityFlags.NewTask);
-                Context.StartActivity(intent);
+                alarmManager.SetRepeating(AlarmType.Rtc, now + repeatEveryMillis, repeatEveryMillis, pe);
                 DependencyService.Get<IToastMessage>().Show(ar.SetAlarm);
             }
         }
 
         public void CancelAlarm()
         {
-            var intent = new Intent(Context, typeof(SetAlarmActivity));
-            PendingIntent? pe = PendingIntent.GetService(Context, (int)RequestCodes.Alarm, intent,
-                PendingIntentFlags.NoCreate);
-
-            alarmManager.Cancel(pe);
+            var intent = new Intent(Context, typeof(AlarmReceiver))
+                .SetFlags(ActivityFlags.NewTask);
+            PendingIntent? pe = PendingIntent.GetBroadcast(Context, (int)RequestCodes.Alarm, intent,
+                PendingIntentFlags.Immutable);
+            // PendingIntent? pe = PendingIntent.GetService(Context, (int)RequestCodes.Alarm, intent, PendingIntentFlags.NoCreate);
+            if (alarmManager is { } && pe is { }) { alarmManager.Cancel(pe); }
+            // sketchy I know, but added as the simplest dumbest way to ensure
+            // the alarm is cancelled and my checks also work.
+            alarmManager = null;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Ch1FlyoutPageModel.DependencyServices
         bool GpsIsOn { get; }
         bool AlarmIsSet { get; }
         bool CheckPermission();
-        void SetAlarm();
+        void SetAlarm(long repeatEveryMillis);
         void CancelAlarm();
     }
 }

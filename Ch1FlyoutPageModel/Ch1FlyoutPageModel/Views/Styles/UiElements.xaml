@@ -55,12 +55,23 @@
            ApplyToDerivedTypes="True">
         <Setter Property="Padding"
                 Value="-10,-5" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource L8}, Dark={StaticResource L3}}" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource L4}, Dark={StaticResource L6}}" />
+        <Setter Property="CornerRadius"
+                Value="8" />
     </Style>
     <Style TargetType="ContentPage"
            ApplyToDerivedTypes="True">
         <Setter Property="Visual"
                 Value="Material" />
         <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
+    </Style>
+    <Style TargetType="Label"
+           Class="titleViewText">
+        <Setter Property="TextColor"
                 Value="{AppThemeBinding Light={StaticResource L3}, Dark={StaticResource L7}}" />
     </Style>
 </ResourceDictionary>
